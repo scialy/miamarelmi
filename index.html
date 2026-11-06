@@ -297,7 +297,8 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:50;width:100%;heigh
 <div class="world" aria-hidden="true" id="world" style="--k0:#5b3fa8;--k1:#9b5fc9;--k2:#ff8fb0;--k3:#ffc58f;--k4:#ffe3b0;--h0:#c58fd6;--h1:#f0a8c0;--h2:#f59a8a;--h3:#ffc08a;--h4:#ffcf7a;--h5:#f0a04e;--h6:#c9a45a;--h7:#9a7a3a;--gl:#fff6d6">
   <div class="glow"></div>
   <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
-  <svg class="hills" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice">
+  <!-- Terreno: si allarga su schermi larghi; palma e paesaggi restano in proporzione e appoggiati alle colline -->
+  <svg class="hills terrain" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice">
     <defs>
       <linearGradient id="m1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--h0)"/><stop offset="1" style="stop-color:var(--h1)"/></linearGradient>
       <linearGradient id="m2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--h2)"/><stop offset="1" style="stop-color:var(--h3)"/></linearGradient>
@@ -307,9 +308,14 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:50;width:100%;heigh
     </defs>
     <path class="par1" d="M0 120 L40 90 L80 112 L130 60 L180 105 L230 75 L290 115 L340 70 L400 100 V300 H0Z" fill="url(#m1)" opacity=".8"/>
     <path d="M0 170 Q60 120 130 160 T260 150 T400 140 V300 H0Z" fill="url(#m2)"/>
-    <g id="landmark"></g>
+  </svg>
+  <svg class="hills prop" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice"><g id="landmark"></g></svg>
+  <svg class="hills terrain" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice">
+    
     <path d="M0 210 Q100 170 210 205 T400 195 V300 H0Z" fill="url(#m3)"/>
     <path d="M0 250 Q120 220 240 250 T400 240 V300 H0Z" fill="url(#m4)"/>
+  </svg>
+  <svg class="hills prop" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice">
     <g transform="translate(330 248)">
       <path d="M0 0 Q4 -30 -2 -62" stroke="url(#trunk)" stroke-width="7" fill="none" stroke-linecap="round"/>
       <g fill="#4fae5c"><path d="M-2 -62 q-30 -6 -40 14 q18 -16 40 -14Z"/><path d="M-2 -62 q30 -10 42 8 q-20 -12 -42 -8Z"/><path d="M-2 -62 q-14 -24 -36 -22 q22 4 36 22Z"/><path d="M-2 -62 q14 -26 36 -26 q-20 8 -36 26Z"/></g>
@@ -826,6 +832,12 @@ function setWorld(wid){
   const st=el.style;w.sky.forEach((c,i)=>st.setProperty("--k"+i,c));w.hills.forEach((c,i)=>st.setProperty("--h"+i,c));st.setProperty("--gl",w.glow);
   const lm=document.getElementById("landmark");if(lm)lm.innerHTML=LANDMARK[w.id]||"";
 }
+/* Colline: su schermi più larghi del disegno (4:3) il terreno si stira in larghezza invece di tagliarsi,
+   così le creste restano visibili; palma e paesaggi usano la stessa altezza e restano appoggiati sopra */
+function fitHills(){const s=document.querySelector(".hills");if(!s)return;const r=s.getBoundingClientRect(),wide=r.height>0&&r.width/r.height>400/300;
+  document.querySelectorAll(".hills.terrain").forEach(e=>e.setAttribute("preserveAspectRatio",wide?"none":"xMidYMax slice"));
+  document.querySelectorAll(".hills.prop").forEach(e=>e.setAttribute("preserveAspectRatio",wide?"xMidYMax meet":"xMidYMax slice"))}
+fitHills();addEventListener("resize",fitHills);
 (function sparkles(){const w=document.getElementById("world");for(let i=0;i<22;i++){const s=document.createElement("i");s.className="spark";s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*70}%;animation-duration:${2+Math.random()*3}s,${10+Math.random()*10}s;animation-delay:${-Math.random()*5}s,${-Math.random()*10}s;width:${3+Math.random()*4}px;height:${3+Math.random()*4}px`;w.appendChild(s)}})();
 
 
