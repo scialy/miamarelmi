@@ -61,9 +61,17 @@ h1,h2{font-family:var(--f-display);font-weight:700;margin:0;text-wrap:balance}
 .hero{padding:26px 20px 22px;text-align:center;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:-40% -20% auto;height:160px;background:radial-gradient(ellipse,rgba(255,215,140,.55),transparent 70%);pointer-events:none}
 .logo{font-family:var(--f-display);font-weight:700;font-size:clamp(50px,14vw,74px);line-height:1;position:relative}
-.logo span{display:inline-block;background:linear-gradient(180deg,#fff3c4 0%,var(--gold2) 45%,var(--gold3) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 #b8601e) drop-shadow(0 8px 14px rgba(150,60,30,.35));animation:rise .8s cubic-bezier(.3,1.5,.5,1) both}
-.logo .c{background-image:linear-gradient(180deg,#ffe0f0 0%,var(--rose) 50%,var(--rose2) 100%);filter:drop-shadow(0 3px 0 #a52c62) drop-shadow(0 8px 14px rgba(150,30,80,.35));animation-delay:.25s}
-.logo .b{animation-delay:.12s}
+/* Titolo a palloncini: ogni lettera è un palloncino gonfio, con bordo bianco, riflesso lucido e un leggero dondolio */
+.logo{display:flex;flex-direction:column;align-items:center;gap:.04em}
+.logo .brow{display:flex;flex-wrap:wrap;justify-content:center;column-gap:.28em;row-gap:.02em}
+.logo .bw{display:inline-flex;white-space:nowrap}
+.logo .bl{position:relative;display:inline-block;color:var(--c3);-webkit-text-stroke:.19em var(--c3);margin-inline:-.01em;
+  transform:rotate(var(--r));filter:drop-shadow(0 .07em 0 rgba(60,20,80,.28)) drop-shadow(0 .16em .14em rgba(70,20,90,.3));
+  animation:rise .8s cubic-bezier(.3,1.5,.5,1) var(--d0) both,bob-b 3.2s ease-in-out var(--d) infinite}
+.logo .bl i{position:absolute;inset:0;font-style:normal;-webkit-text-stroke:.045em rgba(255,255,255,.85);color:transparent;
+  background:radial-gradient(ellipse 32% 22% at 32% 24%,#fff 0 35%,rgba(255,255,255,0) 100%),linear-gradient(180deg,var(--c1) 0%,var(--c2) 55%,var(--c3) 125%);
+  -webkit-background-clip:text;background-clip:text}
+@keyframes bob-b{0%,100%{transform:translateY(0) rotate(var(--r))}50%{transform:translateY(-.07em) rotate(calc(var(--r)*-1))}}
 .logo .tw{position:absolute;font-size:26px;animation:twinkle 2.2s ease-in-out infinite;background:none;color:#fff;filter:drop-shadow(0 0 6px #ffe08a)}
 @keyframes rise{from{transform:translateY(30px) scale(.7);opacity:0}}
 .hero p{margin:0;font-size:18px;color:var(--ink-soft)}
@@ -190,6 +198,7 @@ h1,h2{font-family:var(--f-display);font-weight:700;margin:0;text-wrap:balance}
 .daily b{font-size:19px}
 .daily small{font-family:var(--f-ui);font-size:14px;color:var(--ink-soft)}
 .daily .go{flex:none;font-size:22px}
+.daily.thl{background:linear-gradient(120deg,rgba(255,240,250,.95),rgba(226,220,255,.92))}
 .daily.avot{background:linear-gradient(120deg,rgba(255,250,232,.95),rgba(220,232,255,.92))}
 .daily.done{background:linear-gradient(120deg,rgba(232,255,224,.95),rgba(255,250,230,.92))}
 .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
@@ -690,9 +699,9 @@ en:{dir:"ltr",brand:"Who Said It?",logo:['Who','Said It','to Whom?'],hello:"Hi! 
  badges:{first:["First step","Finished your first game"],perfect:["Wise like Solomon","A perfect game"],nohint:["Brave like David","A game with no hints"],streak5:["5 in a row","5 right in a row"],day3:["Loyal like Ruth","3 learning days in a row"],day7:["A week of Torah","7 learning days in a row"],
   fix5:["Learning from mistakes","Fixed 5 verses you had missed"],daily:["Daily challenge","Finished a daily challenge"],explorer:["Tanakh traveler","Verses from every world"],master10:["Expert","10 verses mastered"],family:["Family game","Finished a family game"]},
  gotBadge:n=>`🏅 New badge: ${n}`,rankUp:n=>`⭐ New level: ${n}!`,mute:"Mute",unmute:"Sound on",correct:"Correct",wrong:"Not quite"}};
-Object.assign(UI.he,{again:"עוד משחק? ▸",champT:"אתגר האלופים",champS:"10 פסוקים · לאלופים אמיתיים",champLock:n=>n===1?"🔒 עוד משחק אחד כדי לפתוח":`🔒 עוד ${n} משחקים כדי לפתוח`,champNew:"🏆 פתחתם את אתגר האלופים!",finalQ:"המדרגה האחרונה! 🏆",okWhoOnly:"ניחשתם מי אמר! 👍",okToOnly:"ניחשתם אל מי! 👍",discover:"עכשיו גיליתם! 🔍"});
-Object.assign(UI.it,{again:"Ancora una partita? ▸",champT:"Sfida Campione",champS:"10 versetti · per veri campioni",champLock:n=>n===1?"🔒 Ancora 1 partita per sbloccarla":`🔒 Ancora ${n} partite per sbloccarla`,champNew:"🏆 Hai sbloccato la Sfida Campione!",finalQ:"Ultimo gradino! 🏆",okWhoOnly:"Hai indovinato chi parla! 👍",okToOnly:"Hai indovinato a chi parla! 👍",discover:"Ora lo scopri! 🔍"});
-Object.assign(UI.en,{again:"Play again? ▸",champT:"Champion challenge",champS:"10 verses · for true champions",champLock:n=>n===1?"🔒 1 more game to unlock":`🔒 ${n} more games to unlock`,champNew:"🏆 You unlocked the Champion challenge!",finalQ:"Last step! 🏆",okWhoOnly:"You got who said it! 👍",okToOnly:"You got who it was said to! 👍",discover:"Now you know! 🔍"});
+Object.assign(UI.he,{playAgain:"עוד משחק? ▸",champT:"אתגר האלופים",champS:"10 פסוקים · לאלופים אמיתיים",champLock:n=>n===1?"🔒 עוד משחק אחד כדי לפתוח":`🔒 עוד ${n} משחקים כדי לפתוח`,champNew:"🏆 פתחתם את אתגר האלופים!",finalQ:"המדרגה האחרונה! 🏆",okWhoOnly:"ניחשתם מי אמר! 👍",okToOnly:"ניחשתם אל מי! 👍",discover:"עכשיו גיליתם! 🔍"});
+Object.assign(UI.it,{playAgain:"Ancora una partita? ▸",champT:"Sfida Campione",champS:"10 versetti · per veri campioni",champLock:n=>n===1?"🔒 Ancora 1 partita per sbloccarla":`🔒 Ancora ${n} partite per sbloccarla`,champNew:"🏆 Hai sbloccato la Sfida Campione!",finalQ:"Ultimo gradino! 🏆",okWhoOnly:"Hai indovinato chi parla! 👍",okToOnly:"Hai indovinato a chi parla! 👍",discover:"Ora lo scopri! 🔍"});
+Object.assign(UI.en,{playAgain:"Play again? ▸",champT:"Champion challenge",champS:"10 verses · for true champions",champLock:n=>n===1?"🔒 1 more game to unlock":`🔒 ${n} more games to unlock`,champNew:"🏆 You unlocked the Champion challenge!",finalQ:"Last step! 🏆",okWhoOnly:"You got who said it! 👍",okToOnly:"You got who it was said to! 👍",discover:"Now you know! 🔍"});
 const BADGE_EM={first:"👣",perfect:"👑",nohint:"🪨",streak5:"🔥",day3:"🌾",day7:"🕯️",fix5:"🔁",daily:"☀️",explorer:"🗺️",master10:"⭐",family:"👨‍👩‍👧"};
 
 /* ===== Characters ===== */
@@ -936,6 +945,7 @@ function pickCore(n,pool,exclude){
 function buildList(mode,arg){
   const L=n=>Q.filter(q=>q.lvl===n);
   if(mode==="avot")return avotList(arg);
+  if(mode==="tehillim")return thList(arg);
   if(mode==="parasha"){return Q.filter(q=>q.par===arg).sort((a,b)=>verseKey(a)-verseKey(b))}
   if(mode==="daily"){return capH(pickQs(ROUND,Q),1)}
   if(mode==="world"){const pool=Q.filter(q=>q.w===arg);return shuffle(pickQs(Math.min(10,pool.length),pool)).sort((a,b)=>a.lvl-b.lvl)}
@@ -1092,6 +1102,9 @@ const backBtn=()=>`<button class="back" id="back" aria-label="${T().back}">${T()
 function screen(title,body,onBack,self){ONHOME=false;app.innerHTML=`${header()}<div class="screen-h">${backBtn()}<h1>${title}</h1></div>${body}`;bindHeader(self||home);$("#back").onclick=()=>{window.scrollTo(0,0);(onBack||home)()};window.scrollTo(0,0)}
 
 /* ===== Home ===== */
+const BALLOON=[["#fff3c4","#ffb627","#b8601e"],["#ffd3e4","#ff5c98","#a52c62"],["#e4dbff","#8b6cf0","#4a32a8"],["#d4fbf6","#2fc4bb","#16797c"],["#ffe0c2","#ff8a3d","#b24a12"],["#e2fbd2","#5cc94a","#2d7d34"]];
+function balloons(text,off){let k=off;return text.split(" ").map(w=>`<span class="bw">${[...w].map(ch=>{const c=BALLOON[k%BALLOON.length],r=((k*37)%9-4)*1.2,d=(-(k*0.43)%3).toFixed(2),d0=(k*0.05).toFixed(2);k++;
+  return `<span class="bl" style="--c1:${c[0]};--c2:${c[1]};--c3:${c[2]};--r:${r}deg;--d:${d}s;--d0:${d0}s">${esc(ch)}<i>${esc(ch)}</i></span>`}).join("")}</span>`).join("")}
 function home(){ONHOME=true;
   applySettings();stopSpeech();setWorld(S.lastWorld||"avot");
   const t=T(),ri=rankIdx(),m=masteredCount(),next=RANKS[ri+1],due=Q.filter(isDue).length,dDone=S.daily.date===today(),sess=S.session&&S.session.ids&&S.session.i<S.session.ids.length;
@@ -1099,7 +1112,7 @@ function home(){ONHOME=true;
   app.innerHTML=`${header()}
   ${mascot("smile",returning?t.helloBack:t.hello)}
   <section class="card hero">
-    <div class="logo"><span class="tw" style="top:-4px;right:8%">✦</span><span class="tw" style="bottom:6px;left:6%;animation-delay:1s">✦</span><span class="a">${t.logo[0]}</span> <span class="b">${t.logo[1]}</span><br><span class="c">${t.logo[2]}</span></div>
+    <div class="logo"><span class="tw" style="top:-4px;right:8%">✦</span><span class="tw" style="bottom:6px;left:6%;animation-delay:1s">✦</span><span class="sr">${t.logo.join(" ")}</span><span class="brow" aria-hidden="true">${balloons(t.logo[0]+" "+t.logo[1],0)}</span><span class="brow" aria-hidden="true">${balloons(t.logo[2],3)}</span></div>
     <p>${t.sub}</p>
     ${DEDIC}
   </section>
@@ -1109,6 +1122,7 @@ function home(){ONHOME=true;
   <button class="card daily ${dDone?"done":""}" id="daily"><span class="em">${dDone?"✅":"☀️"}</span><span class="tx"><b>${t.dailyT}</b><small>${dDone?t.dailyDone(fmt(S.daily.score)):t.dailyS}</small></span><span class="go">${t.dir==="rtl"?"◂":"▸"}</span></button>
   <button class="card daily champ ${champOpen()?"":"locked"}" id="champ"><span class="em">${champOpen()?"🏆":"🔒"}</span><span class="tx"><b>${t.champT}</b><small>${champOpen()?t.champS:t.champLock(CHAMP_AT-(S.cg||0))}</small></span><span class="go">${t.dir==="rtl"?"◂":"▸"}</span></button>
   <button class="card daily avot" id="avot"><span class="em">📜</span><span class="tx"><b>${t.avT}</b><small>${t.avS}</small></span><span class="go">${t.dir==="rtl"?"◂":"▸"}</span></button>
+  <button class="card daily thl" id="thl"><span class="em">🎵</span><span class="tx"><b>${t.thT}</b><small>${t.thS}</small></span><span class="go">${t.dir==="rtl"?"◂":"▸"}</span></button>
   <div class="tiles">
     <button class="tile" id="tMap"><span class="em">🗺️</span>${t.tMap}</button>
     <button class="tile" id="tPar"><span class="em">📖</span>${t.tPar}</button>
@@ -1119,7 +1133,7 @@ function home(){ONHOME=true;
   bindHeader(home);bindBigLang(home);
   document.querySelectorAll(".level").forEach(b=>b.onclick=()=>{st0.level=+b.dataset.l;document.querySelectorAll(".level").forEach(x=>x.setAttribute("aria-pressed",x===b))});
   $("#go").onclick=()=>start("classic");$("#champ").onclick=()=>{champOpen()?start("champion"):toast(t.champLock(CHAMP_AT-(S.cg||0)))};$("#daily").onclick=()=>start("daily");
-  $("#avot").onclick=avotScreen;$("#tMap").onclick=mapScreen;$("#tPar").onclick=parashaScreen;$("#tModes").onclick=modesScreen;$("#tProg").onclick=dashboard;
+  $("#avot").onclick=avotScreen;$("#thl").onclick=thScreen;$("#tMap").onclick=mapScreen;$("#tPar").onclick=parashaScreen;$("#tModes").onclick=modesScreen;$("#tProg").onclick=dashboard;
   if(sess)$("#cont").onclick=resume;
 }
 
@@ -1188,7 +1202,7 @@ function start(mode,arg){
 }
 function persist(){S.session={mode:st.mode,par:st.par,avc:st.avc,ids:st.ids,i:st.i,score:st.score,xp:st.xp,streak:st.streak,maxStreak:st.maxStreak,hints:st.hints,log:st.log.map(l=>({id:l.q.id,full:l.full,okW:l.okW,okT:l.okT})),fixed:st.fixed,rank0:st.rank0,badges0:st.badges0,players:st.players};save()}
 function resume(){
-  const s=S.session,byId=Object.fromEntries(Q.concat(AV).map(q=>[q.id,q]));const list=(s.ids||[]).map(id=>byId[id]).filter(Boolean);
+  const s=S.session,byId=Object.fromEntries(Q.concat(AV,TH).map(q=>[q.id,q]));const list=(s.ids||[]).map(id=>byId[id]).filter(Boolean);
   if(!list.length||s.i>=list.length){S.session=null;save();home();return}
   st=Object.assign({slow:false,lastMsg:""},s,{list,log:(s.log||[]).map(l=>({q:byId[l.id],full:l.full,okW:l.okW,okT:l.okT})).filter(l=>l.q)});
   question();
@@ -1205,7 +1219,7 @@ const lastStep=()=>st.list.length<=10&&st.list.length>1&&st.i===st.list.length-1
 function question(){ONHOME=false;
   const q=cur(),t=T();if(!q){summary();return}
   if(isComplete())return completeQ();
-  if(st.mode==="avot")return avotQ();
+  if((st.mode==="avot"||st.mode==="tehillim"))return avotQ();
   Object.assign(st,{step:"who",pickWho:null,hintUsed:false,revealed:st.mode!=="listen"});
   setWorld(q.w);S.lastWorld=q.w;
   q._who=shuffle([q.who,...q.whoX]);q._to=shuffle([q.to,...q.toX]);
@@ -1321,7 +1335,7 @@ function summary(){
   if(st.mode==="daily"&&S.daily.date!==today()){S.daily={date:today(),score:st.score};S.xp+=10;st.xp+=10}
   S.lastIds=st.ids.slice();S.session=null;
   const wasOpen=champOpen();if(st.mode==="classic"||st.mode==="daily")S.cg=(S.cg||0)+1;const champNew=!wasOpen&&champOpen();
-  const againM=st.mode==="daily"?"classic":["classic","champion","listen","complete","family"].includes(st.mode)?st.mode:null;
+  const againM=st.mode==="daily"?"classic":["classic","champion","listen","complete","family","avot","tehillim"].includes(st.mode)?st.mode:null;
   const want={first:true,perfect:n>=5&&full===n,nohint:n>=5&&st.hints===0&&full>=n/2,streak5:st.maxStreak>=5,day3:S.streak.cur>=3,day7:S.streak.cur>=7,fix5:S.fixed>=5,
     daily:st.mode==="daily",explorer:WORLDS.every(w=>Q.some(q=>q.w===w.id&&status(q)!=="new")),master10:masteredCount()>=10,family:st.mode==="family"};
   const fresh=Object.keys(want).filter(k=>want[k]&&!S.badges[k]);fresh.forEach(k=>S.badges[k]=today());
@@ -1339,7 +1353,7 @@ function summary(){
     <p><b>${t.rightAns}</b></p>
     <div class="tally">${nFull?`<span>✓ ${t.tFull(nFull)}</span>`:""}${nPart?`<span>½ ${t.tPart(nPart)}</span>`:""}<span>🪙 ${fmt(st.score)} · ${t.xpGain(st.xp)}</span></div>
   </section>
-  ${againM?`<button class="next" id="again2">${t.again}</button>`:""}
+  ${againM?`<button class="next" id="again2">${t.playAgain}</button>`:""}
   ${st.mode!=="family"?`<button class="cta share" id="share">${t.shareB}</button>`:""}
   ${podium?`<div class="podium">${podium.map((p,i)=>`<div class="card"><span>${["🥇","🥈","🥉","🎖️"][i]} ${esc(p.n)}</span><span>${fmt(p.s)} 🪙</span></div>`).join("")}</div><p class="best">${t.famAll}</p>`:""}
   ${fresh.length?`<h2 class="sec">${t.newBadges}</h2><div class="badges">${fresh.map(k=>`<div class="badge got"><span class="em">${BADGE_EM[k]}</span><b>${t.badges[k][0]}</b><small>${t.badges[k][1]}</small></div>`).join("")}</div>`:""}
@@ -1353,7 +1367,7 @@ function summary(){
   if($("#share"))$("#share").onclick=()=>shareResult(ansOK,ansN);
   if($("#navc"))$("#navc").onclick=()=>{window.scrollTo(0,0);start("avot",st.avc+1)};
   if($("#npar"))$("#npar").onclick=()=>{window.scrollTo(0,0);start("parasha",st.par+1)};
-  if($("#rev"))$("#rev").onclick=()=>{window.scrollTo(0,0);start(st.mode==="complete"?"complete":st.mode==="avot"?"avot":"classic",miss)};
+  if($("#rev"))$("#rev").onclick=()=>{window.scrollTo(0,0);start(["complete","avot","tehillim"].includes(st.mode)?st.mode:"classic",miss)};
 }
 
 /* ===== Dashboard ===== */
@@ -1631,22 +1645,22 @@ function avotList(c){
 }
 const avHead3=q=>q.h.split(" ").slice(0,3).join(" ");
 function avEnds(q){
-  const bad=x=>x===q||x.a===q.a||avHead3(x)===avHead3(q),near=shuffle(AV.filter(x=>!bad(x)&&x.c===q.c)),far=shuffle(AV.filter(x=>!bad(x)&&x.c!==q.c));
+  const L=bk().list,bad=x=>x===q||x.a===q.a||avHead3(x)===avHead3(q),near=shuffle(L.filter(x=>!bad(x)&&x.c===q.c)),far=shuffle(L.filter(x=>!bad(x)&&x.c!==q.c));
   const out=[];near.concat(far).forEach(x=>{if(out.length<3&&!out.includes(x.a))out.push(x.a)});return shuffle([q.a,...out]);
 }
 function avWhos(q){
-  const all=[...new Set(AV.map(x=>x.who).filter(w=>w&&w!==q.who))],near=shuffle(all.filter(w=>AV.some(x=>x.who===w&&x.c===q.c))),far=shuffle(all.filter(w=>!near.includes(w)));
+  const L=bk().list,all=[...new Set(L.map(x=>x.who).filter(w=>w&&w!==q.who))],near=shuffle(all.filter(w=>L.some(x=>x.who===w&&x.c===q.c))),far=shuffle(all.filter(w=>!near.includes(w)));
   return shuffle([q.who,...near.concat(far).slice(0,3)]);
 }
 function avotQ(){ONHOME=false;
   const q=cur(),t=T();
-  Object.assign(st,{step:"end",okEnd:null,hintUsed:false,fifty:false});setWorld("pirkei");S.lastWorld="avot";
+  Object.assign(st,{step:"end",okEnd:null,hintUsed:false,fifty:false});setWorld(bk().world);S.lastWorld="avot";
   q._end=avEnds(q);q._who=q.who?avWhos(q):null;
   app.innerHTML=`${header()}
   <div class="hud">${hudBar()}<span class="coins" id="coins">🪙 ${fmt(st.score)}</span></div>
-  ${mascot("think",t.avOf(st.i+1,st.list.length))}
+  ${mascot("think",bk().of(t)(st.i+1,st.list.length))}
   <section class="card verse">
-    <span class="lvtag">📜 ${t.avTag(LANG==="he"?AVCH[q.c]:q.c)} · ${t.lv[q.lvl]}</span>
+    <span class="lvtag">${bk().em} ${bk().tag(q,t)} · ${t.lv[q.lvl]}</span>
     <blockquote dir="rtl" lang="he" id="avq">״${q.h.split(" ").map(w=>`<span class="w">${w}</span>`).join(" ")} <span class="gap" aria-label="…"></span>״</blockquote>
     ${LANG==="he"?"":`<p class="tr" dir="ltr" lang="${LANG}" id="avtr">${esc(AVL(q,0))} …</p>`}
     <div class="audio">
@@ -1669,7 +1683,7 @@ function avotQ(){ONHOME=false;
 function avFifty(){const q=cur();shuffle([...document.querySelectorAll(".opt")].filter(b=>b.dataset.n!==q.who&&!b.disabled)).slice(0,2).forEach(b=>{b.disabled=true;b.classList.add("fade")})}
 function avAskEnd(){
   const q=cur(),t=T();
-  $("#ask").innerHTML=`<div class="step"><h2>${t.avEndQ}</h2></div><div class="topts">${q._end.map(o=>{const x=AV.find(y=>y.a===o);return `<button class="topt" dir="rtl" lang="he" data-o="${esc(o)}">${o}${LANG!=="he"&&x?`<small class="ttr" dir="ltr" lang="${LANG}">${esc(AVL(x,1))}</small>`:""}</button>`}).join("")}</div>`;
+  $("#ask").innerHTML=`<div class="step"><h2>${t.avEndQ}</h2></div><div class="topts">${q._end.map(o=>{const x=bk().list.find(y=>y.a===o);return `<button class="topt" dir="rtl" lang="he" data-o="${esc(o)}">${o}${LANG!=="he"&&x?`<small class="ttr" dir="ltr" lang="${LANG}">${esc(AVL(x,1))}</small>`:""}</button>`}).join("")}</div>`;
   document.querySelectorAll(".topt").forEach(b=>b.onclick=()=>avChooseEnd(b.dataset.o));
 }
 function avChooseEnd(o){
@@ -1682,9 +1696,9 @@ function avChooseEnd(o){
   speak(q.v,i=>document.querySelectorAll(".verse .w").forEach((el,j)=>el.classList.toggle("on",j===i)),"he");
   if(!q.who){avFinish(ok,ok);return}
   st.step="who";
-  setMascot(ok?"happy":"oops",ok?t.avOkEnd:t.avNoEnd,ok?"jump":"wobble");
+  setMascot(ok?"happy":"oops",ok?bk().okEnd(t):bk().noEnd(t),ok?"jump":"wobble");
   setTimeout(()=>{
-    $("#ask").innerHTML=`<div class="step"><h2>${t.whoQ}</h2></div><div class="opts">${q._who.map(n=>`<button class="opt" data-n="${esc(n)}">${avatar(n,"")}<span>${NM(n)}</span></button>`).join("")}</div>`;
+    $("#ask").innerHTML=`<div class="step"><h2>${bk().whoQ(t)}</h2></div><div class="opts">${q._who.map(n=>`<button class="opt" data-n="${esc(n)}">${avatar(n,"")}<span>${NM(n)}</span></button>`).join("")}</div>`;
     document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>avChooseWho(b.dataset.n));
     if(st.fifty)avFifty();const h=$("#ask h2");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}
   },ok?700:1300);
@@ -1711,7 +1725,7 @@ function avCard(q,full,pts,xp){
   const t=T(),el=document.createElement("section");el.className="card feedback "+(full?"good":"soft");
   const ctx=LANG==="he"?q.ctx:AVL(q,2);
   el.innerHTML=`<h2 tabindex="-1">${full?"🎉 "+st.lastMsg:st.lastMsg}</h2>
-    <div class="answer">${q.who?`${avatar(q.who,full?"happy":"")}<span>${NM(q.who)}</span>`:`<span>📜 ${t.avAnon}</span>`}</div>
+    <div class="answer">${q.who?`${avatar(q.who,full?"happy":"")}<span>${NM(q.who)}</span>`:`<span>${bk().em} ${bk().anon(t)}</span>`}</div>
     <span class="plus">+${fmt(pts)} 🪙 · ${t.xpGain(xp)}</span>
     <div class="know"><b>${t.know} · ${SRC(q)}</b>${esc(ctx)}</div>
     <button class="pill" id="story" style="align-self:center">${t.story}</button>
@@ -1720,6 +1734,218 @@ function avCard(q,full,pts,xp){
   el.querySelector("h2").focus({preventScroll:true});
   $("#story").onclick=()=>speak(ctx,null,LANG);
   $("#next").onclick=()=>{stopSpeech();st.i++;persist();window.scrollTo(0,0);st.i<st.list.length?question():summary()};
+}
+
+/* ===== Tehillim: completa il versetto + chi ha scritto il salmo (dall'intestazione: לדוד, לשלמה, למשה, לאסף, לבני קרח, לאיתן) ===== */
+const TH=[
+/* ---- c1: מזמורי דוד ---- */
+{c:1,src:"תהלים כ״ג, א׳",lvl:1,who:"דוד",h:"ה׳ רֹעִי",a:"לֹא אֶחְסָר",
+ ctx:"דוד היה רועה צאן. הוא משווה את ה׳ לרועה טוב שדואג לכל מה שהכבשים צריכות.",
+ it:["Hashem è il mio pastore,","non mi mancherà nulla","Davide da ragazzo faceva il pastore. Paragona Hashem a un buon pastore che pensa a tutto ciò che serve alle sue pecore."],
+ en:["Hashem is my shepherd,","I shall not lack anything","David was a shepherd as a boy. He compares Hashem to a good shepherd who takes care of everything the sheep need."]},
+{c:1,src:"תהלים קל״ג, א׳",lvl:1,who:"דוד",h:"הִנֵּה מַה טּוֹב וּמַה נָּעִים",a:"שֶׁבֶת אַחִים גַּם יָחַד",
+ ctx:"אין דבר יפה יותר מאחים וחברים שיושבים יחד באהבה ובשלום.",
+ it:["Ecco com'è bello e com'è dolce","stare insieme come fratelli","Non c'è niente di più bello di fratelli e amici che stanno insieme in pace e con affetto."],
+ en:["How good and how pleasant it is","for brothers to sit together","Nothing is lovelier than brothers and friends sitting together in peace and love."]},
+{c:1,src:"תהלים ל״ד, י״ג",lvl:2,who:"דוד",h:"מִי הָאִישׁ הֶחָפֵץ חַיִּים",a:"אֹהֵב יָמִים לִרְאוֹת טוֹב",
+ ctx:"דוד שואל: מי רוצה חיים טובים? והתשובה בפסוקים הבאים: לשמור על הלשון ולעשות טוב.",
+ it:["Chi è l'uomo che desidera la vita","e ama i giorni per vedere il bene?","Davide chiede: chi vuole una vita buona? La risposta arriva subito dopo: custodire la lingua e fare il bene."],
+ en:["Who is the man who desires life,","who loves days to see good?","David asks: who wants a good life? The next verses answer: guard your tongue and do good."]},
+{c:1,src:"תהלים ל״ד, י״ד",lvl:2,who:"דוד",h:"נְצֹר לְשׁוֹנְךָ מֵרָע",a:"וּשְׂפָתֶיךָ מִדַּבֵּר מִרְמָה",
+ ctx:"לא לדבר לשון הרע ולא לשקר. זו הדרך לחיים טובים.",
+ it:["Custodisci la tua lingua dal male","e le tue labbra dal dire inganni","Niente maldicenze e niente bugie: è questa la strada per una vita buona."],
+ en:["Guard your tongue from evil","and your lips from speaking lies","No gossip and no lies: that is the way to a good life."]},
+{c:1,src:"תהלים ל״ד, ט״ו",lvl:1,who:"דוד",h:"סוּר מֵרָע וַעֲשֵׂה טוֹב",a:"בַּקֵּשׁ שָׁלוֹם וְרָדְפֵהוּ",
+ ctx:"לא מספיק לחכות לשלום. צריך לחפש אותו ולרדוף אחריו.",
+ it:["Allontanati dal male e fa' il bene,","cerca la pace e corrile dietro","Non basta aspettare la pace: bisogna cercarla e inseguirla."],
+ en:["Turn from evil and do good,","seek peace and pursue it","It's not enough to wait for peace: you have to look for it and chase after it."]},
+{c:1,src:"תהלים י״ט, ב׳",lvl:2,who:"דוד",h:"הַשָּׁמַיִם מְסַפְּרִים כְּבוֹד אֵל",a:"וּמַעֲשֵׂה יָדָיו מַגִּיד הָרָקִיעַ",
+ ctx:"השמיים והכוכבים לא מדברים, אבל כשמסתכלים עליהם מבינים כמה גדול הבורא.",
+ it:["I cieli raccontano la gloria di D-o","e il firmamento annuncia l'opera delle Sue mani","Cielo e stelle non parlano, ma guardandoli si capisce quanto è grande il Creatore."],
+ en:["The heavens tell the glory of G-d,","and the sky declares His handiwork","The sky and stars don't speak, but looking at them shows how great the Creator is."]},
+{c:1,src:"תהלים י״ט, ח׳",lvl:2,who:"דוד",h:"תּוֹרַת ה׳ תְּמִימָה",a:"מְשִׁיבַת נָפֶשׁ",
+ ctx:"התורה שלמה ומושלמת, והיא נותנת כוח ושמחה לנשמה.",
+ it:["La Torà di Hashem è perfetta,","ristora l'anima","La Torà è completa e perfetta, e dà forza e gioia all'anima."],
+ en:["The Torah of Hashem is perfect,","restoring the soul","The Torah is complete and perfect, and gives strength and joy to the soul."]},
+{c:1,src:"תהלים קמ״ה, ט׳",lvl:1,who:"דוד",h:"טוֹב ה׳ לַכֹּל",a:"וְרַחֲמָיו עַל כָּל מַעֲשָׂיו",
+ ctx:"זה מתוך ״אשרי״ שאומרים שלוש פעמים ביום: ה׳ טוב לכל הבריות, גם לבעלי החיים.",
+ it:["Hashem è buono con tutti,","e la Sua misericordia è su tutte le Sue creature","Viene dall'«Ashrè», che si dice tre volte al giorno: Hashem è buono con tutte le creature, anche con gli animali."],
+ en:["Hashem is good to all,","and His mercy is on all His works","It's from \"Ashrei\", said three times a day: Hashem is good to every creature, animals too."]},
+{c:1,src:"תהלים קמ״ה, ט״ז",lvl:2,who:"דוד",h:"פּוֹתֵחַ אֶת יָדֶךָ",a:"וּמַשְׂבִּיעַ לְכָל חַי רָצוֹן",
+ ctx:"ה׳ נותן אוכל לכל חי. כשאומרים את הפסוק הזה ב״אשרי״ מתרכזים במיוחד.",
+ it:["Tu apri la Tua mano","e sazi ogni vivente secondo il suo desiderio","Hashem dà da mangiare a ogni essere vivente. Nell'«Ashrè» si dice questo versetto con concentrazione speciale."],
+ en:["You open Your hand","and satisfy every living thing","Hashem feeds every living creature. In \"Ashrei\" we say this verse with special focus."]},
+{c:1,src:"תהלים קמ״ה, י״ח",lvl:3,who:"דוד",h:"קָרוֹב ה׳ לְכָל קֹרְאָיו",a:"לְכֹל אֲשֶׁר יִקְרָאֻהוּ בֶאֱמֶת",
+ ctx:"ה׳ שומע כל תפילה שיוצאת מהלב באמת.",
+ it:["Hashem è vicino a tutti quelli che Lo invocano,","a tutti quelli che Lo invocano con sincerità","Hashem ascolta ogni preghiera che viene davvero dal cuore."],
+ en:["Hashem is near to all who call Him,","to all who call Him in truth","Hashem hears every prayer that truly comes from the heart."]},
+{c:1,src:"תהלים כ״ד, א׳",lvl:2,who:"דוד",h:"לַה׳ הָאָרֶץ וּמְלוֹאָהּ",a:"תֵּבֵל וְיֹשְׁבֵי בָהּ",
+ ctx:"כל העולם שייך לה׳. לכן מברכים לפני שנהנים ממשהו.",
+ it:["A Hashem appartiene la terra e quanto contiene,","il mondo e i suoi abitanti","Tutto il mondo appartiene a Hashem: per questo si recita una benedizione prima di goderne."],
+ en:["The earth and all it holds belong to Hashem,","the world and those who live in it","The whole world belongs to Hashem, so we say a blessing before enjoying anything."]},
+{c:1,src:"תהלים כ״ד, ג׳",lvl:3,who:"דוד",h:"מִי יַעֲלֶה בְהַר ה׳",a:"וּמִי יָקוּם בִּמְקוֹם קָדְשׁוֹ",
+ ctx:"מי זוכה לעלות להר הבית? התשובה בפסוק הבא: מי שיש לו ידיים נקיות ולב טהור.",
+ it:["Chi salirà sul monte di Hashem","e chi starà nel Suo luogo santo?","Chi merita di salire al Monte del Tempio? Risponde il versetto dopo: chi ha mani pulite e cuore puro."],
+ en:["Who may go up the mountain of Hashem,","and who may stand in His holy place?","Who may go up the Temple Mount? The next verse answers: one with clean hands and a pure heart."]},
+{c:1,src:"תהלים כ״ז, א׳",lvl:2,who:"דוד",h:"ה׳ אוֹרִי וְיִשְׁעִי",a:"מִמִּי אִירָא",
+ ctx:"כשה׳ מאיר את הדרך, אין ממה לפחד. אומרים את המזמור הזה בחודש אלול.",
+ it:["Hashem è la mia luce e la mia salvezza:","di chi avrò paura?","Quando Hashem illumina la strada non c'è nulla da temere. Questo salmo si recita nel mese di Elul."],
+ en:["Hashem is my light and my salvation;","whom shall I fear?","When Hashem lights the way there is nothing to fear. We say this psalm in the month of Elul."]},
+{c:1,src:"תהלים כ״ט, י״א",lvl:2,who:"דוד",h:"ה׳ עֹז לְעַמּוֹ יִתֵּן",a:"ה׳ יְבָרֵךְ אֶת עַמּוֹ בַשָּׁלוֹם",
+ ctx:"הברכה הגדולה ביותר היא שלום. בפסוק הזה מסיימים את ברכת המזון.",
+ it:["Hashem darà forza al Suo popolo,","Hashem benedirà il Suo popolo con la pace","La benedizione più grande è la pace: con questo versetto si conclude la birkat hamazon."],
+ en:["Hashem will give strength to His people,","Hashem will bless His people with peace","The greatest blessing is peace: Birkat Hamazon ends with this verse."]},
+{c:1,src:"תהלים ל״ז, כ״ה",lvl:3,who:"דוד",h:"נַעַר הָיִיתִי גַּם זָקַנְתִּי",a:"וְלֹא רָאִיתִי צַדִּיק נֶעֱזָב",
+ ctx:"דוד מספר מניסיון של כל חייו: ה׳ לא עוזב את הצדיקים.",
+ it:["Sono stato giovane e ora sono vecchio,","e non ho visto un giusto abbandonato","Davide racconta l'esperienza di tutta la sua vita: Hashem non abbandona i giusti."],
+ en:["I was young and now I am old,","and I have not seen a righteous man forsaken","David shares the experience of his whole life: Hashem does not abandon the righteous."]},
+{c:1,src:"תהלים נ״א, י״ב",lvl:3,who:"דוד",h:"לֵב טָהוֹר בְּרָא לִי אֱלֹהִים",a:"וְרוּחַ נָכוֹן חַדֵּשׁ בְּקִרְבִּי",
+ ctx:"דוד ביקש את זה אחרי שנתן הנביא הוכיח אותו: לב חדש ונקי כדי להתחיל מחדש.",
+ it:["Crea in me un cuore puro, o D-o,","e rinnova dentro di me uno spirito saldo","Davide lo chiese dopo il rimprovero del profeta Natan: un cuore nuovo e pulito per ricominciare."],
+ en:["Create a pure heart in me, G-d,","and renew a steadfast spirit within me","David asked for this after the prophet Nathan rebuked him: a new, clean heart to start again."]},
+{c:1,src:"תהלים ט״ז, ח׳",lvl:2,who:"דוד",h:"שִׁוִּיתִי ה׳ לְנֶגְדִּי תָמִיד",a:"כִּי מִימִינִי בַּל אֶמּוֹט",
+ ctx:"מי שזוכר תמיד שה׳ לידו מרגיש בטוח ולא נופל.",
+ it:["Ho sempre posto Hashem davanti a me:","poiché Egli è alla mia destra, non vacillerò","Chi ricorda sempre che Hashem gli sta accanto si sente sicuro e non cade."],
+ en:["I have set Hashem before me always;","since He is at my right hand, I shall not falter","Whoever always remembers that Hashem is beside them feels safe and does not fall."]},
+{c:1,src:"תהלים כ׳, ב׳",lvl:2,who:"דוד",h:"יַעַנְךָ ה׳",a:"בְּיוֹם צָרָה",
+ ctx:"ברכה לחבר: שה׳ יענה לך ביום קשה. אומרים את המזמור בתפילת שחרית.",
+ it:["Ti risponda Hashem","nel giorno della difficoltà","Un augurio per un amico: che Hashem ti risponda nel giorno difficile. Si recita nella preghiera del mattino."],
+ en:["May Hashem answer you","on the day of trouble","A blessing for a friend: may Hashem answer you on a hard day. It's said in the morning prayers."]},
+{c:1,src:"תהלים קכ״ב, א׳",lvl:2,who:"דוד",h:"שָׂמַחְתִּי בְּאֹמְרִים לִי",a:"בֵּית ה׳ נֵלֵךְ",
+ ctx:"דוד שמח מאוד כשאמרו לו: בוא נלך יחד לבית ה׳.",
+ it:["Mi sono rallegrato quando mi hanno detto:","«Andiamo alla casa di Hashem»","Davide era felicissimo quando gli dicevano: andiamo insieme alla casa di Hashem."],
+ en:["I rejoiced when they said to me,","\"Let us go to the house of Hashem\"","David was overjoyed when people said: let's go together to Hashem's house."]},
+{c:1,src:"תהלים נ״ה, כ״ג",lvl:3,who:"דוד",h:"הַשְׁלֵךְ עַל ה׳ יְהָבְךָ",a:"וְהוּא יְכַלְכְּלֶךָ",
+ ctx:"״יהבך״ זה המשא, הדאגה. אפשר למסור את הדאגות לה׳, והוא ידאג לנו.",
+ it:["Getta su Hashem il tuo peso,","ed Egli ti sosterrà","«Il tuo peso» sono le preoccupazioni: possiamo affidarle a Hashem, e Lui si prenderà cura di noi."],
+ en:["Cast your burden on Hashem,","and He will sustain you","\"Your burden\" means your worries: we can hand them to Hashem, and He will take care of us."]},
+/* ---- c2: משוררים נוספים ---- */
+{c:2,src:"תהלים קכ״ז, א׳",lvl:3,who:"שלמה",h:"אִם ה׳ לֹא יִבְנֶה בַיִת",a:"שָׁוְא עָמְלוּ בוֹנָיו בּוֹ",
+ ctx:"שלמה המלך, שבנה את בית המקדש, מלמד: בלי עזרת ה׳, כל המאמץ לשווא.",
+ it:["Se Hashem non costruisce la casa,","invano vi faticano i costruttori","Re Salomone, che costruì il Santuario, insegna: senza l'aiuto di Hashem ogni sforzo è inutile."],
+ en:["Unless Hashem builds the house,","its builders labor in vain","King Solomon, who built the Temple, teaches: without Hashem's help every effort is in vain."]},
+{c:2,src:"תהלים צ׳, י״ב",lvl:3,who:"משה",h:"לִמְנוֹת יָמֵינוּ כֵּן הוֹדַע",a:"וְנָבִא לְבַב חָכְמָה",
+ ctx:"המזמור הזה הוא תפילה של משה רבנו: ללמוד להעריך כל יום, כדי לחיות בחוכמה.",
+ it:["Insegnaci a contare i nostri giorni","e avremo un cuore saggio","Questo salmo è una preghiera di Mosè: imparare a dare valore a ogni giorno, per vivere con saggezza."],
+ en:["Teach us to count our days,","so we may gain a heart of wisdom","This psalm is a prayer of Moses: learn to value each day so that we live wisely."]},
+{c:2,src:"תהלים פ״ד, ה׳",lvl:2,who:"בני קרח",h:"אַשְׁרֵי יוֹשְׁבֵי בֵיתֶךָ",a:"עוֹד יְהַלְלוּךָ סֶּלָה",
+ ctx:"זה הפסוק הראשון של ״אשרי״. בני קרח היו משוררים במקדש.",
+ it:["Felici quelli che abitano la Tua casa,","Ti loderanno sempre, selà","È il primo versetto dell'«Ashrè». I figli di Korach erano cantori nel Santuario."],
+ en:["Happy are those who dwell in Your house;","they will always praise You, selah","This is the first verse of \"Ashrei\". The sons of Korah were singers in the Temple."]},
+{c:2,src:"תהלים מ״ב, ב׳",lvl:3,who:"בני קרח",h:"כְּאַיָּל תַּעֲרֹג עַל אֲפִיקֵי מָיִם",a:"כֵּן נַפְשִׁי תַעֲרֹג אֵלֶיךָ אֱלֹהִים",
+ ctx:"כמו אייל צמא שמחפש מים, כך הנשמה מתגעגעת להיות קרובה לה׳.",
+ it:["Come la cerva anela ai corsi d'acqua,","così l'anima mia anela a Te, o D-o","Come un cervo assetato cerca l'acqua, così l'anima desidera essere vicina a Hashem."],
+ en:["As a deer longs for streams of water,","so my soul longs for You, G-d","Like a thirsty deer seeking water, the soul longs to be close to Hashem."]},
+{c:2,src:"תהלים מ״ו, ב׳",lvl:3,who:"בני קרח",h:"אֱלֹהִים לָנוּ מַחֲסֶה וָעֹז",a:"עֶזְרָה בְצָרוֹת נִמְצָא מְאֹד",
+ ctx:"בזמנים קשים, ה׳ הוא כמו מקלט חזק שאפשר לברוח אליו.",
+ it:["D-o è per noi rifugio e forza,","un aiuto sempre presente nelle difficoltà","Nei momenti difficili Hashem è come un rifugio forte in cui ripararsi."],
+ en:["G-d is our refuge and strength,","a help ever present in trouble","In hard times Hashem is like a strong shelter to run to."]},
+{c:2,src:"תהלים מ״ז, ב׳",lvl:2,who:"בני קרח",h:"כָּל הָעַמִּים תִּקְעוּ כָף",a:"הָרִיעוּ לֵאלֹהִים בְּקוֹל רִנָּה",
+ ctx:"אומרים את המזמור הזה שבע פעמים לפני תקיעת השופר בראש השנה.",
+ it:["Popoli tutti, battete le mani,","acclamate D-o con voce di gioia","Questo salmo si recita sette volte prima dello shofar di Rosh Hashanà."],
+ en:["All you nations, clap your hands,","shout to G-d with a joyful voice","This psalm is said seven times before the shofar on Rosh Hashanah."]},
+{c:2,src:"תהלים ע״ג, כ״ח",lvl:3,who:"אסף",h:"וַאֲנִי קִרֲבַת אֱלֹהִים",a:"לִי טוֹב",
+ ctx:"אסף היה ראש המשוררים בימי דוד. הוא מסכם: הדבר הכי טוב בשבילי זה להיות קרוב לה׳.",
+ it:["Quanto a me, la vicinanza a D-o","è il mio bene","Asaf era il capo dei cantori ai tempi di Davide. Conclude: la cosa migliore per me è stare vicino a Hashem."],
+ en:["As for me, nearness to G-d","is my good","Asaph led the Temple singers in David's time. He concludes: the best thing for me is to be close to Hashem."]},
+{c:2,src:"תהלים פ״א, ב׳",lvl:3,who:"אסף",h:"הַרְנִינוּ לֵאלֹהִים עוּזֵּנוּ",a:"הָרִיעוּ לֵאלֹהֵי יַעֲקֹב",
+ ctx:"זה שיר של יום חמישי, שהלויים שרו במקדש.",
+ it:["Cantate con gioia a D-o, nostra forza,","acclamate il D-o di Giacobbe","È il salmo del giovedì, che i Leviti cantavano nel Santuario."],
+ en:["Sing joyfully to G-d, our strength,","shout to the G-d of Jacob","This is the Thursday psalm that the Levites sang in the Temple."]},
+{c:2,src:"תהלים פ״ט, ב׳",lvl:3,who:"איתן האזרחי",h:"חַסְדֵי ה׳ עוֹלָם אָשִׁירָה",a:"לְדֹר וָדֹר אוֹדִיעַ אֱמוּנָתְךָ בְּפִי",
+ ctx:"איתן האזרחי היה חכם גדול בימי שלמה. הוא רוצה לספר על טוב ה׳ לכל הדורות.",
+ it:["Canterò per sempre la bontà di Hashem,","di generazione in generazione farò conoscere la Tua fedeltà","Etan l'Ezrachita era un grande saggio ai tempi di Salomone. Vuole raccontare la bontà di Hashem a tutte le generazioni."],
+ en:["I will sing of Hashem's kindness forever;","to every generation I will make known Your faithfulness","Ethan the Ezrahite was a great sage in Solomon's time. He wants to tell every generation about Hashem's goodness."]},
+/* ---- c3: מזמורים בלי שם ---- */
+{c:3,src:"תהלים א׳, א׳",lvl:2,who:null,h:"אַשְׁרֵי הָאִישׁ",a:"אֲשֶׁר לֹא הָלַךְ בַּעֲצַת רְשָׁעִים",
+ ctx:"זה הפסוק הראשון בספר תהלים: מאושר מי שלא הולך אחרי עצות רעות.",
+ it:["Felice l'uomo","che non segue il consiglio dei malvagi","È il primo versetto del libro dei Tehillim: è felice chi non si lascia guidare dai cattivi consigli."],
+ en:["Happy is the man","who does not follow the advice of the wicked","This is the very first verse of Tehillim: happy is the one who does not follow bad advice."]},
+{c:3,src:"תהלים קכ״א, א׳",lvl:1,who:null,h:"אֶשָּׂא עֵינַי אֶל הֶהָרִים",a:"מֵאַיִן יָבֹא עֶזְרִי",
+ ctx:"המשורר מרים את העיניים להרים ושואל מאיפה תבוא העזרה. התשובה בפסוק הבא: מה׳.",
+ it:["Alzo gli occhi verso i monti:","da dove verrà il mio aiuto?","Chi canta alza lo sguardo verso i monti e si chiede da dove arriverà l'aiuto. La risposta è nel versetto dopo: da Hashem."],
+ en:["I lift my eyes to the mountains:","where will my help come from?","The singer looks up at the mountains and asks where help will come from. The next verse answers: from Hashem."]},
+{c:3,src:"תהלים קכ״א, ב׳",lvl:2,who:null,h:"עֶזְרִי מֵעִם ה׳",a:"עֹשֵׂה שָׁמַיִם וָאָרֶץ",
+ ctx:"מי שברא את השמיים ואת הארץ יכול לעזור בכל דבר.",
+ it:["Il mio aiuto viene da Hashem,","che ha fatto il cielo e la terra","Chi ha creato il cielo e la terra può aiutare in ogni cosa."],
+ en:["My help comes from Hashem,","Maker of heaven and earth","The One who created heaven and earth can help with anything."]},
+{c:3,src:"תהלים קכ״א, ד׳",lvl:1,who:null,h:"הִנֵּה לֹא יָנוּם וְלֹא יִישָׁן",a:"שׁוֹמֵר יִשְׂרָאֵל",
+ ctx:"גם כשאנחנו ישנים בלילה, ה׳ שומר עלינו כל הזמן.",
+ it:["Ecco, non si assopisce e non dorme","il custode d'Israele","Anche quando dormiamo di notte, Hashem veglia su di noi senza sosta."],
+ en:["Behold, He does not slumber or sleep,","the Guardian of Israel","Even while we sleep at night, Hashem watches over us all the time."]},
+{c:3,src:"תהלים ק״נ, ו׳",lvl:1,who:null,h:"כֹּל הַנְּשָׁמָה תְּהַלֵּל יָהּ",a:"הַלְלוּ יָהּ",
+ ctx:"זה הפסוק האחרון בספר תהלים: כל מי שיש בו נשמה מודה לה׳.",
+ it:["Ogni essere che respira lodi Hashem,","Halleluyà","È l'ultimo versetto dei Tehillim: ogni creatura che ha un'anima ringrazia Hashem."],
+ en:["Let every soul praise Hashem,","Halleluyah","This is the last verse of Tehillim: everything with a soul thanks Hashem."]},
+{c:3,src:"תהלים קי״ח, כ״ד",lvl:1,who:null,h:"זֶה הַיּוֹם עָשָׂה ה׳",a:"נָגִילָה וְנִשְׂמְחָה בוֹ",
+ ctx:"את הפסוק הזה אומרים בהלל בחגים: כל יום הוא מתנה מה׳, וכדאי לשמוח בו.",
+ it:["Questo è il giorno che Hashem ha fatto:","esultiamo e rallegriamoci in esso","Si dice nell'Hallel delle feste: ogni giorno è un regalo di Hashem, ed è bello gioirne."],
+ en:["This is the day Hashem has made;","let us rejoice and be glad in it","We say it in Hallel on festivals: every day is a gift from Hashem, so let's be happy in it."]},
+{c:3,src:"תהלים קל״ז, ה׳",lvl:2,who:null,h:"אִם אֶשְׁכָּחֵךְ יְרוּשָׁלִָם",a:"תִּשְׁכַּח יְמִינִי",
+ ctx:"היהודים בגלות בבל נשבעו לא לשכוח את ירושלים. לכן שוברים כוס בחתונה.",
+ it:["Se ti dimentico, Gerusalemme,","si dimentichi la mia destra","Gli ebrei esiliati a Babilonia giurarono di non dimenticare mai Gerusalemme. Per questo si rompe un bicchiere ai matrimoni."],
+ en:["If I forget you, Jerusalem,","let my right hand forget","The Jews exiled in Babylon swore never to forget Jerusalem. That's why a glass is broken at weddings."]},
+{c:3,src:"תהלים קכ״ו, א׳",lvl:2,who:null,h:"בְּשׁוּב ה׳ אֶת שִׁיבַת צִיּוֹן",a:"הָיִינוּ כְּחֹלְמִים",
+ ctx:"כשה׳ יחזיר את עם ישראל לציון, זה ירגיש כמו חלום. שרים את זה לפני ברכת המזון בשבת.",
+ it:["Quando Hashem riporterà i ritornati a Sion,","saremo come chi sogna","Quando Hashem riporterà il popolo a Sion sembrerà un sogno. Si canta prima della birkat hamazon di Shabbat."],
+ en:["When Hashem brings back the returnees to Zion,","we will be like dreamers","When Hashem brings the people back to Zion it will feel like a dream. We sing it before Birkat Hamazon on Shabbat."]},
+{c:3,src:"תהלים קכ״ו, ה׳",lvl:3,who:null,h:"הַזֹּרְעִים בְּדִמְעָה",a:"בְּרִנָּה יִקְצֹרוּ",
+ ctx:"כמו חקלאי שעובד קשה בזריעה ושמח בקציר: מאמץ היום מביא שמחה מחר.",
+ it:["Chi semina tra le lacrime","mieterà con canti di gioia","Come il contadino che fatica a seminare e gioisce al raccolto: la fatica di oggi porta gioia domani."],
+ en:["Those who sow in tears","will reap with songs of joy","Like a farmer who works hard sowing and rejoices at harvest: today's effort brings tomorrow's joy."]},
+{c:3,src:"תהלים צ״ב, ב׳",lvl:2,who:null,h:"טוֹב לְהֹדוֹת לַה׳",a:"וּלְזַמֵּר לְשִׁמְךָ עֶלְיוֹן",
+ ctx:"זה ״מזמור שיר ליום השבת״. בשבת יש זמן מיוחד להודות לה׳ ולשיר.",
+ it:["È bello ringraziare Hashem","e cantare al Tuo nome, o Altissimo","È il «salmo per il giorno di Shabbat»: di Shabbat c'è un tempo speciale per ringraziare e cantare."],
+ en:["It is good to thank Hashem","and to sing to Your name, Most High","This is the \"psalm for the Shabbat day\": on Shabbat there is special time to give thanks and sing."]},
+{c:3,src:"תהלים צ״ב, י״ג",lvl:2,who:null,h:"צַדִּיק כַּתָּמָר יִפְרָח",a:"כְּאֶרֶז בַּלְּבָנוֹן יִשְׂגֶּה",
+ ctx:"הצדיק דומה לעץ תמר שנותן פרי ולארז חזק שגדל גבוה.",
+ it:["Il giusto fiorirà come la palma,","crescerà come un cedro del Libano","Il giusto è come una palma che dà frutti e come un cedro forte che cresce alto."],
+ en:["The righteous will flourish like a palm tree,","grow tall like a cedar in Lebanon","The righteous person is like a fruitful palm and a strong cedar growing tall."]},
+{c:3,src:"תהלים ק׳, ב׳",lvl:1,who:null,h:"עִבְדוּ אֶת ה׳ בְּשִׂמְחָה",a:"בֹּאוּ לְפָנָיו בִּרְנָנָה",
+ ctx:"עובדים את ה׳ לא מתוך עצב, אלא בשמחה ובשירה.",
+ it:["Servite Hashem con gioia,","venite davanti a Lui con canti","Si serve Hashem non con tristezza, ma con gioia e canti."],
+ en:["Serve Hashem with joy,","come before Him with singing","We serve Hashem not with sadness but with joy and song."]},
+{c:3,src:"תהלים קי״ג, ג׳",lvl:2,who:null,h:"מִמִּזְרַח שֶׁמֶשׁ עַד מְבוֹאוֹ",a:"מְהֻלָּל שֵׁם ה׳",
+ ctx:"מהמקום שבו השמש זורחת ועד המקום שבו היא שוקעת, בכל העולם, מהללים את ה׳. זה מתוך ההלל.",
+ it:["Dal sorgere del sole al suo tramonto","sia lodato il nome di Hashem","Da dove il sole sorge fino a dove tramonta, in tutto il mondo, si loda Hashem. È parte dell'Hallel."],
+ en:["From the rising of the sun to its setting,","Hashem's name is praised","From where the sun rises to where it sets, all over the world, Hashem is praised. It's part of Hallel."]},
+{c:3,src:"תהלים קל״ו, א׳",lvl:1,who:null,h:"הוֹדוּ לַה׳ כִּי טוֹב",a:"כִּי לְעוֹלָם חַסְדּוֹ",
+ ctx:"במזמור הזה ״כי לעולם חסדו״ חוזר 26 פעמים! על כל דבר טוב מודים לה׳.",
+ it:["Ringraziate Hashem perché è buono,","perché la Sua bontà è per sempre","In questo salmo «perché la Sua bontà è per sempre» si ripete 26 volte! Per ogni cosa buona si ringrazia Hashem."],
+ en:["Give thanks to Hashem for He is good,","for His kindness is forever","In this psalm \"for His kindness is forever\" repeats 26 times! We thank Hashem for every good thing."]},
+{c:3,src:"תהלים קי״א, י׳",lvl:2,who:null,h:"רֵאשִׁית חָכְמָה",a:"יִרְאַת ה׳",
+ ctx:"החוכמה הכי חשובה מתחילה מכבוד ויראה כלפי ה׳.",
+ it:["Il principio della saggezza","è il timore di Hashem","La saggezza più importante comincia dal rispetto e dal timore verso Hashem."],
+ en:["The beginning of wisdom","is the fear of Hashem","The most important wisdom begins with awe and respect for Hashem."]}
+];
+TH.forEach(q=>{q.av=true;q.bk="tehillim";q.ix=-1;q.v=q.h+" "+q.a;q.id="תהלים|"+q.src+"|"+q.h.slice(0,10);q.w="tehillim";q.par=-1;q.to=null});
+Object.assign(NAMES,{"אסף":["Asaf","Asaph"],"בני קרח":["I figli di Korach","The sons of Korah"],"איתן האזרחי":["Etan l'Ezrachita","Ethan the Ezrahite"]});
+Object.assign(P,{"אסף":["m","#8a5a2b"],"בני קרח":["g","#6b3b1f"],"איתן האזרחי":["m","#bcb3a1"]});
+BOOKS["תהלים"]=["Salmi","Psalms"];
+const THW={id:"tehillim",sky:["#1e1f5c","#43358f","#8a5ab8","#e08ab8","#ffd6b0"],hills:["#6a5aa8","#9a7ac8","#d8a0b8","#f0c8b0","#c8b070","#9a8a4a","#a8956a","#6a5a3a"],glow:"#fff0f6"};
+LANDMARK.tehillim=`<g transform="translate(150 132)"><path d="M14 104 Q0 46 24 6 M86 104 Q100 46 76 6" stroke="#c8902a" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M20 10 Q50 -6 80 10" stroke="#e8b03a" stroke-width="8" fill="none" stroke-linecap="round"/>${[32,44,56,68].map(x=>`<path d="M${x} 9 V100" stroke="#fff6d6" stroke-width="1.6"/>`).join("")}<rect x="6" y="98" width="88" height="15" rx="6" fill="#a86a1a"/></g><g fill="#fff6d6" opacity=".9"><path d="M262 150 v-22 l14 -4 v22"  stroke="#fff6d6" stroke-width="2.5" fill="none"/><circle cx="258" cy="151" r="5"/><circle cx="272" cy="147" r="5"/><path d="M110 168 v-18" stroke="#fff6d6" stroke-width="2.5"/><circle cx="106" cy="169" r="5"/></g>`;
+{const _sw=setWorld;setWorld=function(wid){if(wid!=="tehillim")return _sw(wid);const el=document.getElementById("world");if(!el)return;const st=el.style;THW.sky.forEach((c,i)=>st.setProperty("--k"+i,c));THW.hills.forEach((c,i)=>st.setProperty("--h"+i,c));st.setProperty("--gl",THW.glow);const lm=document.getElementById("landmark");if(lm)lm.innerHTML=LANDMARK.tehillim}}
+Object.assign(UI.he,{thT:"תהלים",thS:"משלימים פסוקים מתהלים, ומגלים מי כתב אותם",thMix:"מכל הספר",thMixS:"5 פסוקים מעורבים",thCat:["מזמורי דוד","משוררים נוספים","מזמורים בלי שם"],thOf:(i,n)=>`פסוק ${i} מתוך ${n}. איך ממשיכים?`,
+ thOkEnd:"נכון! ועכשיו: מי כתב את המזמור?",thNoEnd:"כמעט! ככה זה ממשיך. ועכשיו: מי כתב את המזמור?",thAnon:"מזמור בלי שם המשורר",thWhoQ:"<em>מי</em> כתב?",avMixS:"5 משניות מעורבות"});
+Object.assign(UI.it,{thT:"Tehillim",thS:"Completa i versetti dei Salmi e scopri chi li ha scritti",thMix:"Da tutto il libro",thMixS:"5 versetti misti",thCat:["Salmi di Davide","Altri autori","Salmi senza firma"],thOf:(i,n)=>`Versetto ${i} di ${n}. Come continua?`,
+ thOkEnd:"Giusto! E adesso: chi ha scritto il salmo?",thNoEnd:"Quasi! Continua così. E adesso: chi ha scritto il salmo?",thAnon:"Salmo senza il nome dell'autore",thWhoQ:"<em>Chi</em> l'ha scritto?",avMixS:"5 mishnayot miste"});
+Object.assign(UI.en,{thT:"Tehillim",thS:"Complete verses from Psalms and find out who wrote them",thMix:"From the whole book",thMixS:"5 mixed verses",thCat:["Psalms of David","Other authors","Unsigned psalms"],thOf:(i,n)=>`Verse ${i} of ${n}. How does it go on?`,
+ thOkEnd:"Right! Now: who wrote the psalm?",thNoEnd:"Almost! That's how it goes. Now: who wrote the psalm?",thAnon:"A psalm with no author's name",thWhoQ:"<em>Who</em> wrote it?",avMixS:"5 mixed mishnayot"});
+/* Due libri con la stessa meccanica (completa + chi): Pirkè Avot e Tehillim */
+const BK={avot:{list:AV,world:"pirkei",em:"📜",tag:(q,t)=>t.avTag(LANG==="he"?AVCH[q.c]:q.c),of:t=>t.avOf,okEnd:t=>t.avOkEnd,noEnd:t=>t.avNoEnd,anon:t=>t.avAnon,whoQ:t=>t.whoQ},
+ tehillim:{list:TH,world:"tehillim",em:"🎵",tag:q=>SRC(q),of:t=>t.thOf,okEnd:t=>t.thOkEnd,noEnd:t=>t.thNoEnd,anon:t=>t.thAnon,whoQ:t=>t.thWhoQ}};
+const bk=()=>BK[st.mode==="tehillim"?"tehillim":"avot"];
+function thList(c){return pickQs(ROUND,c?TH.filter(q=>q.c===c):TH).sort((a,b)=>verseKey(a)-verseKey(b))}
+function thScreen(){
+  const t=T();setWorld("tehillim");
+  const prog=pool=>({seen:pool.filter(q=>status(q)!=="new").length,mast:pool.filter(q=>status(q)==="mastered").length,n:pool.length});
+  const all=prog(TH);
+  screen(t.thT,`<p class="best">${t.thS}</p>
+   <button class="card daily thl" id="thMix"><span class="em">🎵</span><span class="tx"><b>${t.thMix}</b><small>${t.thMixS} · ${all.seen}/${all.n}</small></span><span class="go">${t.dir==="rtl"?"◂":"▸"}</span></button>
+   <div class="pgrid" style="grid-template-columns:1fr">${[1,2,3].map(c=>{const p=prog(TH.filter(q=>q.c===c));
+    return `<button class="card pbtn" data-c="${c}"><b>${t.thCat[c-1]}</b><span class="bar"><i style="width:${Math.round(p.seen/p.n*100)}%"></i></span><small>${p.seen}/${p.n}${p.mast===p.n?" 🥇":""}</small></button>`}).join("")}</div>${DEDIC}`,home,thScreen);
+  $("#thMix").onclick=()=>{window.scrollTo(0,0);start("tehillim",0)};
+  document.querySelectorAll(".pbtn").forEach(b=>b.onclick=()=>{window.scrollTo(0,0);start("tehillim",+b.dataset.c)});
 }
 
 /* ===== Boot ===== */
@@ -1731,8 +1957,8 @@ applySettings();(S.set.langPicked||Object.keys(S.q).length?home:langWelcome)();c
 /* ===== Analytics (Umami, senza cookie) ===== */
 (function(){
   function ev(name,data){try{if(window.umami&&umami.track)umami.track(name,data)}catch(e){}}
-  function gioco(m){return m==="avot"?"pirke_avot":"tanakh"}
-  function filtro(mode,arg){try{if(mode==="parasha"&&typeof arg==="number")return PARASHOT[arg][1];if(mode==="world"&&typeof arg==="string")return arg;if(mode==="avot"&&arg!=null&&!Array.isArray(arg))return String(arg)}catch(e){}return ""}
+  function gioco(m){return m==="avot"?"pirke_avot":m==="tehillim"?"tehillim":"tanakh"}
+  function filtro(mode,arg){try{if(mode==="parasha"&&typeof arg==="number")return PARASHOT[arg][1];if(mode==="world"&&typeof arg==="string")return arg;if((mode==="avot"||mode==="tehillim")&&arg!=null&&!Array.isArray(arg))return String(arg)}catch(e){}return ""}
   function wrap(name,fn){var o=window[name];if(typeof o!=="function")return;window[name]=function(){try{fn.apply(this,arguments)}catch(e){}return o.apply(this,arguments)}}
   var dopoRisultato=false,ultimaSezione="";
 
@@ -1759,7 +1985,7 @@ applySettings();(S.set.langPicked||Object.keys(S.q).length?home:langWelcome)();c
   wrap("resume",function(){try{ev("partita_ripresa",{gioco:gioco(S.session&&S.session.mode),modalita:S.session&&S.session.mode})}catch(e){}});
 
   // Sezioni visitate (una volta per visita, non a ogni ridisegno)
-  [["avotScreen","pirke_avot"],["mapScreen","mappa_mondi"],["parashaScreen","parashot"],["modesScreen","altri_giochi"],["familySetup","famiglia"],["settings","impostazioni"],["dashboard","progressi"]].forEach(function(x){
+  [["avotScreen","pirke_avot"],["thScreen","tehillim"],["mapScreen","mappa_mondi"],["parashaScreen","parashot"],["modesScreen","altri_giochi"],["familySetup","famiglia"],["settings","impostazioni"],["dashboard","progressi"]].forEach(function(x){
     wrap(x[0],function(){if(ultimaSezione!==x[1]){ultimaSezione=x[1];ev("sezione",{nome:x[1],lingua:LANG})}});
   });
   wrap("home",function(){ultimaSezione=""});
