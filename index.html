@@ -1199,7 +1199,7 @@ function familySetup(){
 function start(mode,arg){
   const list=Array.isArray(arg)&&mode!=="family"?arg:buildList(mode,arg);
   if(!list.length){home();return}
-  st={mode,easy:mode==="classic"&&st0.level===1,par:mode==="parasha"?arg:null,avc:mode==="avot"&&!Array.isArray(arg)?arg:0,ids:list.map(q=>q.id),list,i:0,score:0,xp:0,streak:0,maxStreak:0,hints:0,log:[],slow:false,lastMsg:"",fixed:0,rank0:rankIdx(),badges0:Object.keys(S.badges),
+  st={mode,easy:mode==="classic"&&st0.level===1,par:mode==="parasha"?arg:null,avc:(mode==="avot"||mode==="tehillim")&&!Array.isArray(arg)?arg:0,ids:list.map(q=>q.id),list,i:0,score:0,xp:0,streak:0,maxStreak:0,hints:0,log:[],slow:false,lastMsg:"",fixed:0,rank0:rankIdx(),badges0:Object.keys(S.badges),
       players:mode==="family"?arg.map(n=>({n,s:0})):null};
   persist();question();
 }
@@ -1347,7 +1347,7 @@ function summary(){
     daily:st.mode==="daily",explorer:WORLDS.every(w=>Q.some(q=>q.w===w.id&&status(q)!=="new")),master10:masteredCount()>=10,family:st.mode==="family"};
   const fresh=Object.keys(want).filter(k=>want[k]&&!S.badges[k]);fresh.forEach(k=>S.badges[k]=today());
   const ri=rankIdx();save();
-  const single=l=>st.mode==="complete"||(l.q.av&&!l.q.who);
+  const single=l=>st.mode==="complete"||l.single||(l.q.av&&!l.q.who);
   const L=st.log.filter(Boolean),ansN=L.reduce((a,l)=>a+(single(l)?1:2),0),ansOK=L.reduce((a,l)=>a+(single(l)?(l.full?1:0):(l.okW?1:0)+(l.okT?1:0)),0);
   const nFull=L.filter(l=>l.full).length,nPart=L.filter(l=>!l.full&&(l.okW||l.okT)).length;
   const miss=st.log.filter(l=>l&&!l.full).map(l=>l.q);
@@ -1662,7 +1662,7 @@ function avWhos(q){
 function avotQ(){ONHOME=false;
   const q=cur(),t=T();
   Object.assign(st,{step:"end",okEnd:null,hintUsed:false,fifty:false});setWorld(bk().world);S.lastWorld="avot";
-  q._end=avEnds(q);q._who=q.who?avWhos(q):null;
+  q._end=avEnds(q);q._who=askWho(q)?avWhos(q):null;
   app.innerHTML=`${header()}
   <div class="hud">${hudBar()}<span class="coins" id="coins">🪙 ${fmt(st.score)}</span></div>
   ${mascot("think",bk().of(t)(st.i+1,st.list.length))}
@@ -1699,9 +1699,9 @@ function avChooseEnd(o){
   chime(ok);announce((ok?t.correct:t.wrong)+": "+q.a);
   const bq=$("#avq");if(bq)bq.innerHTML=`״${q.v.split(" ").map(w=>`<span class="w">${w}</span>`).join(" ")}״`;
   const tr=$("#avtr");if(tr)tr.textContent=AVL(q,0)+" "+AVL(q,1);
-  const hb=$("#hint");if(hb)hb.disabled=st.hintUsed||!q.who;
+  const hb=$("#hint");if(hb)hb.disabled=st.hintUsed||!askWho(q);
   speak(q.v,i=>document.querySelectorAll(".verse .w").forEach((el,j)=>el.classList.toggle("on",j===i)),"he");
-  if(!q.who){avFinish(ok,ok);return}
+  if(!askWho(q)){avFinish(ok,ok);return}
   st.step="who";
   setMascot(ok?"happy":"oops",ok?bk().okEnd(t):bk().noEnd(t),ok?"jump":"wobble");
   setTimeout(()=>{
@@ -1718,10 +1718,10 @@ function avChooseWho(n){
 }
 function avFinish(okEnd,okWho){
   const q=cur(),t=T(),full=okEnd&&okWho;
-  let pts=q.who?(okEnd?1:0)+(okWho?1:0)+(full?1:0):(okEnd?3:0);if(st.hintUsed&&pts>0)pts-=.5;
+  let pts=askWho(q)?(okEnd?1:0)+(okWho?1:0)+(full?1:0):(okEnd?3:0);if(st.hintUsed&&pts>0)pts-=.5;
   const r=record(q,okWho,okEnd,st.hintUsed);
   st.score+=pts;st.xp+=r.xp;if(r.fixed)st.fixed++;st.streak=full?st.streak+1:0;st.maxStreak=Math.max(st.maxStreak,st.streak);
-  st.log[st.i]={q,full,okW:okWho,okT:okEnd};
+  st.log[st.i]={q,full,okW:okWho,okT:okEnd,single:!askWho(q)};
   const msg=pick(full?t.praise:t.soft,st.lastMsg);st.lastMsg=msg;markRung(full);if(full)burst();
   setMascot(full?"happy":"oops",full?(st.streak>=3?t.streak(msg,st.streak):msg):t.softM,full?"jump":"wobble");
   const c=$("#coins");c.textContent="🪙 "+fmt(st.score);c.classList.remove("bump");void c.offsetWidth;c.classList.add("bump");
@@ -1942,7 +1942,14 @@ Object.assign(UI.en,{thT:"Tehillim",thS:"Complete verses from Psalms and find ou
 const BK={avot:{list:AV,world:"pirkei",em:"📜",tag:(q,t)=>t.avTag(LANG==="he"?AVCH[q.c]:q.c),of:t=>t.avOf,okEnd:t=>t.avOkEnd,noEnd:t=>t.avNoEnd,anon:t=>t.avAnon,whoQ:t=>t.whoQ},
  tehillim:{list:TH,world:"tehillim",em:"🎵",tag:q=>SRC(q),of:t=>t.thOf,okEnd:t=>t.thOkEnd,noEnd:t=>t.thNoEnd,anon:t=>t.thAnon,whoQ:t=>t.thWhoQ}};
 const bk=()=>BK[st.mode==="tehillim"?"tehillim":"avot"];
-function thList(c){return pickQs(ROUND,c?TH.filter(q=>q.c===c):TH).sort((a,b)=>verseKey(a)-verseKey(b))}
+/* "Chi l'ha scritto?" solo se è una vera domanda: non nella sezione Salmi di Davide (la risposta sarebbe sempre Davide) */
+const askWho=q=>!!q.who&&!(st.mode==="tehillim"&&st.avc===1);
+function thList(c){
+  let out=pickQs(ROUND,c?TH.filter(q=>q.c===c):TH);
+  if(!c){const D=q=>q.who==="דוד",dav=out.filter(D);
+    if(dav.length>2){const ids=new Set(out.map(q=>q.id)),extra=pickQs(dav.length-2,TH.filter(q=>!D(q)),ids);out=out.filter(q=>!D(q)).concat(dav.slice(0,2),extra)}}
+  return out.sort((a,b)=>verseKey(a)-verseKey(b));
+}
 function thScreen(){
   const t=T();setWorld("tehillim");
   const prog=pool=>({seen:pool.filter(q=>status(q)!=="new").length,mast:pool.filter(q=>status(q)==="mastered").length,n:pool.length});
