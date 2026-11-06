@@ -61,17 +61,17 @@ h1,h2{font-family:var(--f-display);font-weight:700;margin:0;text-wrap:balance}
 .hero{padding:26px 20px 22px;text-align:center;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:-40% -20% auto;height:160px;background:radial-gradient(ellipse,rgba(255,215,140,.55),transparent 70%);pointer-events:none}
 .logo{font-family:var(--f-display);font-weight:700;font-size:clamp(50px,14vw,74px);line-height:1;position:relative}
-/* Titolo a palloncini: ogni lettera è un palloncino gonfio, con bordo bianco, riflesso lucido e un leggero dondolio */
-.logo{display:flex;flex-direction:column;align-items:center;gap:.04em}
-.logo .brow{display:flex;flex-wrap:wrap;justify-content:center;column-gap:.28em;row-gap:.02em}
-.logo .bw{display:inline-flex;white-space:nowrap}
-.logo .bl{position:relative;display:inline-block;color:var(--c3);-webkit-text-stroke:.19em var(--c3);margin-inline:-.01em;
-  transform:rotate(var(--r));filter:drop-shadow(0 .07em 0 rgba(60,20,80,.28)) drop-shadow(0 .16em .14em rgba(70,20,90,.3));
-  animation:rise .8s cubic-bezier(.3,1.5,.5,1) var(--d0) both,bob-b 3.2s ease-in-out var(--d) infinite}
-.logo .bl i{position:absolute;inset:0;font-style:normal;-webkit-text-stroke:.045em rgba(255,255,255,.85);color:transparent;
-  background:radial-gradient(ellipse 32% 22% at 32% 24%,#fff 0 35%,rgba(255,255,255,0) 100%),linear-gradient(180deg,var(--c1) 0%,var(--c2) 55%,var(--c3) 125%);
-  -webkit-background-clip:text;background-clip:text}
-@keyframes bob-b{0%,100%{transform:translateY(0) rotate(var(--r))}50%{transform:translateY(-.07em) rotate(calc(var(--r)*-1))}}
+/* Titolo da logo di gioco: parole intere, riempimento lucido, contorno scuro spesso ed estrusione 3D; due colori, due righe leggermente inclinate */
+.logo{display:flex;flex-direction:column;align-items:center;gap:.02em;padding-block:.08em .12em}
+.logo .lw{position:relative;display:inline-block;color:var(--c3);-webkit-text-stroke:.2em var(--c3);letter-spacing:.01em;text-align:center;max-width:100%;
+  transform:rotate(var(--r));filter:drop-shadow(0 .035em 0 var(--c4)) drop-shadow(0 .035em 0 var(--c4)) drop-shadow(0 .035em 0 var(--c4)) drop-shadow(0 .16em .12em rgba(60,15,70,.35));
+  animation:rise .8s cubic-bezier(.3,1.5,.5,1) var(--d0) both,logo-breath 4.5s ease-in-out 1s infinite}
+.logo .lw i{position:absolute;inset:0;font-style:normal;-webkit-text-stroke:.04em rgba(255,255,255,.9);color:transparent;
+  background:linear-gradient(180deg,#fff 0%,var(--c1) 22%,var(--c2) 58%,var(--c5) 100%);-webkit-background-clip:text;background-clip:text}
+.logo .lw i::after{content:attr(data-t);position:absolute;inset:0;-webkit-text-stroke:0;color:transparent;
+  background:linear-gradient(180deg,rgba(255,255,255,.75) 0 30%,rgba(255,255,255,0) 31%);-webkit-background-clip:text;background-clip:text;clip-path:inset(0 0 52% 0)}
+.logo .l1{font-size:1em}.logo .l2{font-size:1.12em}
+@keyframes logo-breath{0%,100%{transform:rotate(var(--r)) scale(1)}50%{transform:rotate(var(--r)) scale(1.035)}}
 .logo .tw{position:absolute;font-size:26px;animation:twinkle 2.2s ease-in-out infinite;background:none;color:#fff;filter:drop-shadow(0 0 6px #ffe08a)}
 @keyframes rise{from{transform:translateY(30px) scale(.7);opacity:0}}
 .hero p{margin:0;font-size:18px;color:var(--ink-soft)}
@@ -1102,9 +1102,9 @@ const backBtn=()=>`<button class="back" id="back" aria-label="${T().back}">${T()
 function screen(title,body,onBack,self){ONHOME=false;app.innerHTML=`${header()}<div class="screen-h">${backBtn()}<h1>${title}</h1></div>${body}`;bindHeader(self||home);$("#back").onclick=()=>{window.scrollTo(0,0);(onBack||home)()};window.scrollTo(0,0)}
 
 /* ===== Home ===== */
-const BALLOON=[["#fff3c4","#ffb627","#b8601e"],["#ffd3e4","#ff5c98","#a52c62"],["#e4dbff","#8b6cf0","#4a32a8"],["#d4fbf6","#2fc4bb","#16797c"],["#ffe0c2","#ff8a3d","#b24a12"],["#e2fbd2","#5cc94a","#2d7d34"]];
-function balloons(text,off){let k=off;return text.split(" ").map(w=>`<span class="bw">${[...w].map(ch=>{const c=BALLOON[k%BALLOON.length],r=((k*37)%9-4)*1.2,d=(-(k*0.43)%3).toFixed(2),d0=(k*0.05).toFixed(2);k++;
-  return `<span class="bl" style="--c1:${c[0]};--c2:${c[1]};--c3:${c[2]};--r:${r}deg;--d:${d}s;--d0:${d0}s">${esc(ch)}<i>${esc(ch)}</i></span>`}).join("")}</span>`).join("")}
+const LOGO_PAL=[["#fff1b8","#ffc23a","#7a3510","#4a1c06","#e8781a"],["#ffd6e8","#ff5d9e","#6e1240","#430826","#d42a6c"]];
+function logoWord(text,cls,k){const c=LOGO_PAL[k],r=k?2:-3;
+  return `<span class="lw ${cls}" aria-hidden="true" style="--c1:${c[0]};--c2:${c[1]};--c3:${c[2]};--c4:${c[3]};--c5:${c[4]};--r:${r}deg;--d0:${k*.18}s">${esc(text)}<i data-t="${esc(text)}">${esc(text)}</i></span>`}
 function home(){ONHOME=true;
   applySettings();stopSpeech();setWorld(S.lastWorld||"avot");
   const t=T(),ri=rankIdx(),m=masteredCount(),next=RANKS[ri+1],due=Q.filter(isDue).length,dDone=S.daily.date===today(),sess=S.session&&S.session.ids&&S.session.i<S.session.ids.length;
@@ -1112,7 +1112,7 @@ function home(){ONHOME=true;
   app.innerHTML=`${header()}
   ${mascot("smile",returning?t.helloBack:t.hello)}
   <section class="card hero">
-    <div class="logo"><span class="tw" style="top:-4px;right:8%">✦</span><span class="tw" style="bottom:6px;left:6%;animation-delay:1s">✦</span><span class="sr">${t.logo.join(" ")}</span><span class="brow" aria-hidden="true">${balloons(t.logo[0]+" "+t.logo[1],0)}</span><span class="brow" aria-hidden="true">${balloons(t.logo[2],3)}</span></div>
+    <div class="logo"><span class="tw" style="top:-4px;right:8%">✦</span><span class="tw" style="bottom:6px;left:6%;animation-delay:1s">✦</span><span class="sr">${t.logo.join(" ")}</span>${logoWord(t.logo[0]+" "+t.logo[1],"l1",0)}${logoWord(t.logo[2],"l2",1)}</div>
     <p>${t.sub}</p>
     ${DEDIC}
   </section>
@@ -1196,7 +1196,7 @@ function familySetup(){
 function start(mode,arg){
   const list=Array.isArray(arg)&&mode!=="family"?arg:buildList(mode,arg);
   if(!list.length){home();return}
-  st={mode,par:mode==="parasha"?arg:null,avc:mode==="avot"&&!Array.isArray(arg)?arg:0,ids:list.map(q=>q.id),list,i:0,score:0,xp:0,streak:0,maxStreak:0,hints:0,log:[],slow:false,lastMsg:"",fixed:0,rank0:rankIdx(),badges0:Object.keys(S.badges),
+  st={mode,easy:mode==="classic"&&st0.level===1,par:mode==="parasha"?arg:null,avc:mode==="avot"&&!Array.isArray(arg)?arg:0,ids:list.map(q=>q.id),list,i:0,score:0,xp:0,streak:0,maxStreak:0,hints:0,log:[],slow:false,lastMsg:"",fixed:0,rank0:rankIdx(),badges0:Object.keys(S.badges),
       players:mode==="family"?arg.map(n=>({n,s:0})):null};
   persist();question();
 }
@@ -1210,6 +1210,10 @@ function resume(){
 const isComplete=()=>st.mode==="complete";
 
 /* ===== Question screen ===== */
+/* Parashà/mondo: indizio forte. Visibile solo se il giocatore l'ha scelto (Parashà, Viaggio) o gioca a livello Facile;
+   altrimenti entra nell'Indizio (che costa) e si scopre nella scheda dopo la risposta */
+const ctxLbl=q=>{if(q.par>=0)return "📖 "+PN(q.par);const w=WORLDS.find(x=>x.id===q.w);return w?WN(w):""};
+const showCtx=()=>st.mode==="parasha"||st.mode==="world"||!!st.easy;
 function hudBar(){const t=T(),n=st.list.length,lbl=t.prog(st.i+1,n);
   if(n>10)return `<div class="track" role="progressbar" aria-label="${lbl}" aria-valuenow="${st.i}" aria-valuemax="${n}"><b style="width:${Math.max(st.i/n*100,4)}%"></b></div>`;
   const step=n<=5?7:3.5;
@@ -1230,7 +1234,7 @@ function question(){ONHOME=false;
   <div class="hud">${hudBar()}<span class="coins" id="coins">🪙 ${fmt(st.score)}</span></div>
   ${pl?`<div class="scoreline">${st.players.map(p=>`<span class="${p===pl?"on":""}">${esc(p.n)} · ${fmt(p.s)}</span>`).join("")}</div><div class="turn">${t.turn(esc(pl.n))}</div>`:mascot("think",lastStep()?t.finalQ:t.of(st.i+1,st.list.length))}
   <section class="card verse" aria-label="${listen?t.listenQ:""}">
-    <span class="lvtag">${q.par>=0?"📖 "+PN(q.par):WN(WORLDS.find(w=>w.id===q.w))} · ${t.lv[q.lvl]}</span>
+    <span class="lvtag">${showCtx()?ctxLbl(q)+" · ":""}${t.lv[q.lvl]}</span>
     <div id="vtext" ${st.revealed?"":"hidden"}><blockquote dir="rtl" lang="he">״${q.v.split(" ").map(w=>`<span class="w">${w}</span>`).join(" ")}״</blockquote>${verseTr(q)}</div>
     ${listen&&!st.revealed?`<div class="listen" id="lbox"><button class="bigplay" id="bigplay" aria-label="${t.listenQ}">🎧</button><b>${t.listenQ}</b><button class="reveal" id="reveal">${t.showText}</button></div>`:""}
     <div class="audio">
@@ -1247,7 +1251,7 @@ function question(){ONHOME=false;
   if($("#reveal"))$("#reveal").onclick=reveal;if($("#bigplay"))$("#bigplay").onclick=readVerse;
   $("#again").onclick=readVerse;
   $("#slow").onclick=e=>{st.slow=!st.slow;e.currentTarget.setAttribute("aria-pressed",st.slow);readVerse()};
-  $("#hint").onclick=e=>{if(!st.hintUsed){st.hintUsed=true;st.hints++}const h=$("#hintbox");h.hidden=false;h.textContent="💡 "+TX(q,"hint")+" "+t.hintCost;e.currentTarget.disabled=true};
+  $("#hint").onclick=e=>{if(!st.hintUsed){st.hintUsed=true;st.hints++}const h=$("#hintbox");h.hidden=false;h.textContent="💡 "+(showCtx()?"":ctxLbl(q)+" · ")+TX(q,"hint")+" "+t.hintCost;e.currentTarget.disabled=true};
   if(!("speechSynthesis" in window))$("#vnote").hidden=false;else setTimeout(()=>{if(!hasHe()&&voices.length){const n=$("#vnote");if(n)n.hidden=false;if(listen&&!st.revealed)reveal()}},900);
   ask();readVerse();
 }
@@ -1283,7 +1287,7 @@ function learnCard(q,full,pts,xp){
     <div class="answer">${avatar(q.who,full?"happy":"")}<span>${NM(q.who)}</span><span class="arrow" aria-hidden="true">${t.arrow}</span>${avatar(q.to,"")}<span>${NM(q.to)}</span></div>
     ${showVerse?`<div class="verse card" style="margin-inline:10px"><blockquote dir="rtl" lang="he">״${q.v}״</blockquote>${verseTr(q)}</div>`:""}
     <span class="plus">+${fmt(pts)} 🪙 · ${t.xpGain(xp)}</span>
-    <div class="know"><b>${t.know} · ${SRC(q)}</b>${TX(q,"ctx")}</div>
+    <div class="know"><b>${t.know} · ${ctxLbl(q)} · ${SRC(q)}</b>${TX(q,"ctx")}</div>
     <button class="more" id="moreb" aria-expanded="false">${t.more}</button>
     <div class="know" id="morebox" hidden>💡 ${TX(q,"hint")}<br><span class="status-chip">${t.st[status(q)]}</span></div>
     <button class="pill" id="story" style="align-self:center">${t.story}</button>
@@ -1304,7 +1308,7 @@ function completeQ(){
   app.innerHTML=`${header()}
   <div class="hud">${hudBar()}<span class="coins" id="coins">🪙 ${fmt(st.score)}</span></div>
   ${mascot("think",t.completeQ)}
-  <section class="card verse"><span class="lvtag">${q.par>=0?"📖 "+PN(q.par):WN(WORLDS.find(x=>x.id===q.w))} · ${t.lv[q.lvl]}</span>
+  <section class="card verse"><span class="lvtag">${showCtx()?ctxLbl(q)+" · ":""}${t.lv[q.lvl]}</span>
     <blockquote dir="rtl" lang="he">״${head} <span class="gap" aria-label="…"></span>״</blockquote>
     <div class="audio"><button class="pill hint" id="hint">${t.hint}</button></div><div class="hintbox" id="hintbox" hidden></div></section>
   <div id="ask" style="display:flex;flex-direction:column;gap:14px"><div class="topts">${opts.map(o=>`<button class="topt" dir="rtl" lang="he" data-o="${esc(o)}">${o}</button>`).join("")}</div></div>`;
