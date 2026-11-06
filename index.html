@@ -61,17 +61,22 @@ h1,h2{font-family:var(--f-display);font-weight:700;margin:0;text-wrap:balance}
 .hero{padding:26px 20px 22px;text-align:center;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:-40% -20% auto;height:160px;background:radial-gradient(ellipse,rgba(255,215,140,.55),transparent 70%);pointer-events:none}
 .logo{font-family:var(--f-display);font-weight:700;font-size:clamp(50px,14vw,74px);line-height:1;position:relative}
-/* Titolo da logo di gioco: parole intere, riempimento lucido, contorno scuro spesso ed estrusione 3D; due colori, due righe leggermente inclinate */
-.logo{display:flex;flex-direction:column;align-items:center;gap:.02em;padding-block:.08em .12em}
-.logo .lw{position:relative;display:inline-block;color:var(--c3);-webkit-text-stroke:.2em var(--c3);letter-spacing:.01em;text-align:center;max-width:100%;
-  transform:rotate(var(--r));filter:drop-shadow(0 .035em 0 var(--c4)) drop-shadow(0 .035em 0 var(--c4)) drop-shadow(0 .035em 0 var(--c4)) drop-shadow(0 .16em .12em rgba(60,15,70,.35));
-  animation:rise .8s cubic-bezier(.3,1.5,.5,1) var(--d0) both,logo-breath 4.5s ease-in-out 1s infinite}
-.logo .lw i{position:absolute;inset:0;font-style:normal;-webkit-text-stroke:.04em rgba(255,255,255,.9);color:transparent;
-  background:linear-gradient(180deg,#fff 0%,var(--c1) 22%,var(--c2) 58%,var(--c5) 100%);-webkit-background-clip:text;background-clip:text}
-.logo .lw i::after{content:attr(data-t);position:absolute;inset:0;-webkit-text-stroke:0;color:transparent;
-  background:linear-gradient(180deg,rgba(255,255,255,.75) 0 30%,rgba(255,255,255,0) 31%);-webkit-background-clip:text;background-clip:text;clip-path:inset(0 0 52% 0)}
-.logo .l1{font-size:1em}.logo .l2{font-size:1.12em}
-@keyframes logo-breath{0%,100%{transform:rotate(var(--r)) scale(1)}50%{transform:rotate(var(--r)) scale(1.035)}}
+/* Titolo in stile trivia: lettere bianche spesse con contorno scuro, colori piatti saturi, etichetta dietro e ombra netta;
+   la seconda riga sta in un fumetto (il gioco parla di chi parla) */
+.logo{--ink:#2b1260;display:flex;flex-direction:column;align-items:center;gap:.06em;padding-block:.1em .22em}
+.logo .lg-plate{display:inline-block;max-width:100%;padding:.06em .32em .12em;border-radius:.38em;border:.055em solid var(--ink);
+  background:linear-gradient(180deg,#9b6bff 0 50%,#7a45f0 50% 100%);box-shadow:0 .09em 0 var(--ink),0 .2em .28em rgba(43,18,96,.3);
+  transform:rotate(-3deg);animation:rise .7s cubic-bezier(.3,1.6,.5,1) both}
+.logo .lg-bubble{position:relative;display:inline-block;padding:.02em .38em .08em;border-radius:.55em;border:.055em solid var(--ink);
+  background:#ffd23f;box-shadow:0 .09em 0 var(--ink);transform:rotate(2.5deg);font-size:1.08em;
+  animation:rise .7s cubic-bezier(.3,1.6,.5,1) .18s both,bubble-tilt 3.6s ease-in-out 1.2s infinite}
+.logo .lg-bubble::after{content:"";position:absolute;bottom:-.17em;inset-inline-start:.55em;width:.28em;height:.28em;background:#ffd23f;
+  border-inline-end:.055em solid var(--ink);border-bottom:.055em solid var(--ink);transform:rotate(45deg)}
+.logo .lt{position:relative;display:inline-block;color:var(--ink);-webkit-text-stroke:.15em var(--ink);text-align:center;letter-spacing:.005em}
+.logo .lt i{position:absolute;inset:0;font-style:normal;-webkit-text-stroke:0;color:var(--fill)}
+.logo .lg-plate .lt{--fill:#fff;filter:drop-shadow(0 .055em 0 var(--ink))}
+.logo .lg-bubble .lt{--fill:#ff4f8b;filter:drop-shadow(0 .05em 0 var(--ink))}
+@keyframes bubble-tilt{0%,100%{transform:rotate(2.5deg)}50%{transform:rotate(-1.5deg) translateY(-.03em)}}
 .logo .tw{position:absolute;font-size:26px;animation:twinkle 2.2s ease-in-out infinite;background:none;color:#fff;filter:drop-shadow(0 0 6px #ffe08a)}
 @keyframes rise{from{transform:translateY(30px) scale(.7);opacity:0}}
 .hero p{margin:0;font-size:18px;color:var(--ink-soft)}
@@ -1102,9 +1107,7 @@ const backBtn=()=>`<button class="back" id="back" aria-label="${T().back}">${T()
 function screen(title,body,onBack,self){ONHOME=false;app.innerHTML=`${header()}<div class="screen-h">${backBtn()}<h1>${title}</h1></div>${body}`;bindHeader(self||home);$("#back").onclick=()=>{window.scrollTo(0,0);(onBack||home)()};window.scrollTo(0,0)}
 
 /* ===== Home ===== */
-const LOGO_PAL=[["#fff1b8","#ffc23a","#7a3510","#4a1c06","#e8781a"],["#ffd6e8","#ff5d9e","#6e1240","#430826","#d42a6c"]];
-function logoWord(text,cls,k){const c=LOGO_PAL[k],r=k?2:-3;
-  return `<span class="lw ${cls}" aria-hidden="true" style="--c1:${c[0]};--c2:${c[1]};--c3:${c[2]};--c4:${c[3]};--c5:${c[4]};--r:${r}deg;--d0:${k*.18}s">${esc(text)}<i data-t="${esc(text)}">${esc(text)}</i></span>`}
+const logoText=s=>`<span class="lt">${esc(s)}<i>${esc(s)}</i></span>`;
 function home(){ONHOME=true;
   applySettings();stopSpeech();setWorld(S.lastWorld||"avot");
   const t=T(),ri=rankIdx(),m=masteredCount(),next=RANKS[ri+1],due=Q.filter(isDue).length,dDone=S.daily.date===today(),sess=S.session&&S.session.ids&&S.session.i<S.session.ids.length;
@@ -1112,7 +1115,7 @@ function home(){ONHOME=true;
   app.innerHTML=`${header()}
   ${mascot("smile",returning?t.helloBack:t.hello)}
   <section class="card hero">
-    <div class="logo"><span class="tw" style="top:-4px;right:8%">✦</span><span class="tw" style="bottom:6px;left:6%;animation-delay:1s">✦</span><span class="sr">${t.logo.join(" ")}</span>${logoWord(t.logo[0]+" "+t.logo[1],"l1",0)}${logoWord(t.logo[2],"l2",1)}</div>
+    <div class="logo"><span class="tw" style="top:-4px;right:8%">✦</span><span class="tw" style="bottom:6px;left:6%;animation-delay:1s">✦</span><span class="sr">${t.logo.join(" ")}</span><span class="lg-plate" aria-hidden="true">${logoText(t.logo[0]+" "+t.logo[1])}</span><span class="lg-bubble" aria-hidden="true">${logoText(t.logo[2])}</span></div>
     <p>${t.sub}</p>
     ${DEDIC}
   </section>
