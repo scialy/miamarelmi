@@ -1202,12 +1202,13 @@ function familySetup(){
 }
 
 /* ===== Session ===== */
+function trk(tipo,x){try{const d=Object.assign({tipo,modalita:st.mode,sezione:st.mode==="avot"?"avot":st.mode==="tehillim"?"tehillim":"tanakh",livello:String(st0.level),lingua:LANG},x||{});const b=JSON.stringify(d);if(!(navigator.sendBeacon&&navigator.sendBeacon("/api/evento",new Blob([b],{type:"application/json"}))))fetch("/api/evento",{method:"POST",headers:{"Content-Type":"application/json"},body:b,keepalive:true}).catch(()=>{})}catch(e){}}
 function start(mode,arg){
   const list=Array.isArray(arg)&&mode!=="family"?arg:buildList(mode,arg);
   if(!list.length){home();return}
   st={mode,easy:mode==="classic"&&st0.level===1,par:mode==="parasha"?arg:null,avc:(mode==="avot"||mode==="tehillim")&&!Array.isArray(arg)?arg:0,ids:list.map(q=>q.id),list,i:0,score:0,xp:0,streak:0,maxStreak:0,hints:0,log:[],slow:false,lastMsg:"",fixed:0,rank0:rankIdx(),badges0:Object.keys(S.badges),
       players:mode==="family"?arg.map(n=>({n,s:0})):null};
-  persist();question();
+  persist();trk("inizio");question();
 }
 function persist(){S.session={mode:st.mode,par:st.par,avc:st.avc,ids:st.ids,i:st.i,score:st.score,xp:st.xp,streak:st.streak,maxStreak:st.maxStreak,hints:st.hints,log:st.log.map(l=>({id:l.q.id,full:l.full,okW:l.okW,okT:l.okT})),fixed:st.fixed,rank0:st.rank0,badges0:st.badges0,players:st.players};save()}
 function resume(){
@@ -1344,6 +1345,7 @@ async function shareResult(ok,n){
 }
 function summary(){
   const t=T(),n=st.log.length||st.list.length,max=n*3,full=st.log.filter(l=>l&&l.full).length,ratio=max?st.score/max:0,stars=ratio>=.85?3:ratio>=.55?2:1;
+  if(!st.tracked){st.tracked=1;trk("fine",{punteggio:st.score,totale:max})}
   touchStreak();if(st.score>S.best)S.best=st.score;
   if(st.mode==="daily"&&S.daily.date!==today()){S.daily={date:today(),score:st.score};S.xp+=10;st.xp+=10}
   S.lastIds=st.ids.slice();S.session=null;
