@@ -71,9 +71,9 @@ ITEMS.forEach(it => { it.key = gem((it.src.match(/ (\S+), /) || [])[1] || "") * 
 /* ---------- 4. Testi ---------- */
 const T = {
   he: {
-    dir: "rtl", site: "מי אמר אל מי?", hubTitle: "מי אמר אל מי? חידון תנ״ך לילדים ולכל המשפחה",
+    dir: "rtl", site: "מי אמר אל מי?", hubTitle: "מי אמר אל מי? (מי אמר למי) חידון תנ״ך לילדים ולכל המשפחה",
     hubH1: "מי אמר אל מי?", hubSub: "חידון תנ״ך חינמי לילדים, להורים ולמורים",
-    hubDesc: "משחק חינמי ללימוד וחזרה על התנ״ך: שומעים פסוק ומנחשים מי אמר אותו ולמי. מתאים לגילאי 8–12 ולכל המשפחה. כולל חידונים על פרקי אבות ותהלים.",
+    hubDesc: "מי אמר למי? משחק חינמי ללימוד וחזרה על התנ״ך: שומעים פסוק ומנחשים מי אמר אותו ולמי. מתאים לגילאי 8–12 ולכל המשפחה. כולל חידונים על פרקי אבות ותהלים.",
     how: ["שומעים פסוק מהתנ״ך, בקריאה בקול", "מנחשים מי אמר אותו, ואל מי", "לומדים את הסיפור שמאחורי כל פסוק"],
     howT: "איך משחקים", play: "▶ לשחק עכשיו, בחינם", playSmall: "לשחק", all: "כל הפסוקים", count: n => `${n} פסוקים ומשניות`,
     secQ: "מי אמר אל מי? פסוקים מהתנ״ך", secAvot: "פרקי אבות: השלימו את המשנה", secTeh: "תהלים: השלימו את הפסוק",
@@ -234,8 +234,8 @@ write("404.html", page({
 
 /* ---------- 7. <head> della home ---------- */
 const HEAD = `<!--SEO:start (generato da seo/build.js)-->
-<title>מי אמר אל מי? חידון תנ״ך לילדים ולכל המשפחה · Gioco sul Tanakh · Bible trivia</title>
-<meta name="description" content="משחק חינמי בתנ״ך: שומעים פסוק ומנחשים מי אמר אותו ולמי. לילדים, להורים ולמורים · Gioco gratuito sul Tanakh: chi l'ha detto a chi? · Free Tanakh trivia game for kids">
+<title>מי אמר אל מי? (מי אמר למי) חידון תנ״ך לילדים · Gioco sul Tanakh · Bible trivia</title>
+<meta name="description" content="מי אמר למי? משחק חינמי בתנ״ך: שומעים פסוק ומנחשים מי אמר אותו ולמי. לילדים, להורים ולמורים · Gioco gratuito sul Tanakh: chi l'ha detto a chi? · Free Tanakh trivia game for kids">
 <link rel="canonical" href="${SITE}/">${alts("")}
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#ffcf9e"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -247,14 +247,14 @@ const HEAD = `<!--SEO:start (generato da seo/build.js)-->
 <meta property="og:image" content="${SITE}/og-image.jpg">
 <meta property="og:image:width" content="1456">
 <meta property="og:image:height" content="839">
-<meta property="og:image:alt" content="מי אמר אל מי? · Chi l'ha detto a chi? · Who said it to whom?">
+<meta property="og:image:alt" content="מי אמר אל מי? · מי אמר למי? · Chi l'ha detto a chi? · Who said it to whom?">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="${SITE}/og-image.jpg">
 <script type="application/ld+json">${JSON.stringify({
   "@context": "https://schema.org", "@graph": [
-    { "@type": "WebSite", "@id": SITE + "/#site", url: SITE + "/", name: "מי אמר אל מי?", alternateName: ["Mi amar el mi", "Chi l'ha detto a chi?", "Who Said It to Whom?"], inLanguage: ["he", "it", "en"] },
+    { "@type": "WebSite", "@id": SITE + "/#site", url: SITE + "/", name: "מי אמר אל מי?", alternateName: ["מי אמר למי?", "Mi amar el mi", "Mi amar lemi", "Chi l'ha detto a chi?", "Who Said It to Whom?"], inLanguage: ["he", "it", "en"] },
     {
-      "@type": ["VideoGame", "WebApplication"], "@id": SITE + "/#game", name: "מי אמר אל מי?", alternateName: ["Chi l'ha detto a chi?", "Who Said It to Whom?"],
+      "@type": ["VideoGame", "WebApplication"], "@id": SITE + "/#game", name: "מי אמר אל מי?", alternateName: ["מי אמר למי?", "Chi l'ha detto a chi?", "Who Said It to Whom?"],
       url: SITE + "/", image: SITE + "/og-image.jpg", description: T.he.hubDesc + " · " + T.en.hubDesc,
       applicationCategory: "EducationalApplication", genre: ["Trivia", "Educational"], operatingSystem: "Web", browserRequirements: "Requires JavaScript",
       inLanguage: ["he", "it", "en"], isAccessibleForFree: true, offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
